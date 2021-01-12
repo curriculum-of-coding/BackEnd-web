@@ -1,10 +1,12 @@
-FROM node:12-alpine
+FROM node:latest
+
+#FROM ubuntu:20.04
 
 LABEL "purpose" = "To set same running environment"
 
+RUN sed -i 's/archive.ubuntu.com/ftp.daumkakao.com/g' /etc/apt/sources.list
 # install programming language & tools to run server based on node.js
-# RUN apt-get update
-# RUN apt-get install -y nodejs npm
+RUN apt-get update
 
 RUN mkdir /root/Backend
 RUN mkdir /root/Backend/dist
