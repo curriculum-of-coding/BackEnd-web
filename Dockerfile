@@ -5,8 +5,9 @@ FROM node:latest
 LABEL "purpose" = "To set same running environment"
 
 RUN sed -i 's/archive.ubuntu.com/ftp.daumkakao.com/g' /etc/apt/sources.list
-# install programming language & tools to run server based on node.js
 RUN apt-get update
+# install programming language & tools to run server based on node.js
+RUN apt-get install -y mongodb
 
 RUN mkdir /root/Backend
 RUN mkdir /root/Backend/dist
