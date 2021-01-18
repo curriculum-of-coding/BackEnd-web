@@ -19,6 +19,9 @@ COPY tsconfig.json /root/Backend
 RUN npm install
 COPY /src /root/Backend/src
 
+RUN systemctl enable mongod
+RUN systemctl start mongod
+
 ENV PORT 5000
 EXPOSE $PORT
 
