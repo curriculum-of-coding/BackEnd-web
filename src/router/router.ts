@@ -5,8 +5,8 @@ import { Test } from '../controllers/test';
 const router = Router();
 
 router.all('/*', (req: Request, res: Response, next: NextFunction) => {
-  console.log(`[${req.ip}] ${req.url} `);
-  next();
+    console.log(`[${req.ip}] ${req.url} `);
+    next();
 });
 router.get('/', Main);
 router.get('/test', Test);

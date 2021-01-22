@@ -7,5 +7,5 @@ import { Request, Response } from 'express';
  * @param {NextFunction} _next
  */
 export function Main(req: Request, res: Response): void {
-  res.send('main!!!');
+    res.send('main!!!');
 }

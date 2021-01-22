@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node dist",
-    "test": "mocha --require ts-node/register 'src/test/**/*.ts'",
+    "test": "mocha --timeout 10000 --require ts-node/register 'src/test/**/*.ts'",
     "dev": "nodemon --delay 2.5 src/index.ts",
-    "eslint": "npx eslint src/**/*"
+    "eslint": "npx eslint src/**/* --resolve-plugins-relative-to .",
+    "fix": "npx eslint src/**/* --resolve-plugins-relative-to . --fix"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/curriculum-of-coding/BackEnd-web#readme",
   "dependencies": {
+    "@types/mongoose": "^5.10.3",
     "express": "^4.17.1",
     "source-map-support": "^0.5.19"
   },
