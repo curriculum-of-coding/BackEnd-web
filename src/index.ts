@@ -1,7 +1,10 @@
 import app from './app';
-import db from './db/db';
+import mongo from './db/db';
 
-db;
+mongo.connect().then(
+    (msg) => console.log(msg ?? 'MongoDB connect!!'),
+    (err) => console.error(err ?? 'MongoDB connect Err')
+);
 
 const port: number = Number(process.env.PORT) || 3000;
 

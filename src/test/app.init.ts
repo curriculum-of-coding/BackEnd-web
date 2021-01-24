@@ -1,12 +1,18 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import app from '../app';
-import db from '../db/db';
+import mongo from '../db/db';
 
 describe('app init test', () => {
     before((done) => {
-        db;
-        done();
+        mongo.connect().then(
+            (msg) => {
+                console.log(msg ?? 'MongoDB connect!!');
+                done();
+            },
+
+            (err) => console.error(err ?? 'MongoDB connect Err')
+        );
     });
     const req = request(app);
 
@@ -31,11 +37,9 @@ describe('app init test', () => {
     });
 
     after((done) => {
-        db.close().then(
-            () => {
-                console.log('DB is closed');
-            },
-            () => undefined
+        mongo.close().then(
+            (msg) => console.log(msg ?? 'MongoDB close!!'),
+            (err) => console.error(err ?? 'MongoDB close Err')
         );
         done();
     });
