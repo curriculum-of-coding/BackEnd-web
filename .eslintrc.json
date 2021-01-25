@@ -19,7 +19,7 @@
     "plugins": [
         "@typescript-eslint"
     ],
-    "ignorePatterns": ["dist/", "node_modules/"],
+    "ignorePatterns": ["dist/", "node_modules/", "src/db/Dockerfile", "src/db/mongod.conf.orig"],
     "rules": {
         "require-jsdoc": ["error", {
             "require": {
