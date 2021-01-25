@@ -5,7 +5,9 @@ import { Test } from '../controllers/test';
 const router = Router();
 
 router.all('/*', (req: Request, res: Response, next: NextFunction) => {
-    console.log(`[${req.ip}] ${req.url} `);
+    if (!(req.header('node-test-header') === 'nodeTest')) {
+        console.log(`[${req.ip}] ${req.url} `);
+    }
     next();
 });
 router.get('/', Main);
