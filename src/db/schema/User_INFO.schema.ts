@@ -1,4 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, connection } from 'mongoose';
+
+let autoIncrement = require('mongoose-auto-increment');
+autoIncrement.initialize(connection);
 
 interface User_INFO {
 	USER_ID: string;
@@ -51,7 +54,7 @@ const userInfoSchema: Schema = new Schema({
 });
 userInfoSchema.index({ EMAIL: 1, GITHUB_MAIL: 1, KAKAO_MAIL: 1, GOOGLE_MAIL: 1 });
 userInfoSchema.plugin( autoIncrement.plugin, {
-	model: 'userInfoSchema',
+	model: 'User_INFO',
 	field: 'USER_ID',
 	startAt: 1,
 	increment: 1

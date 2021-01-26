@@ -1,6 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, connection } from 'mongoose';
 
 let autoIncrement = require('mongoose-auto-increment');
+autoIncrement.initialize(connection);
 
 interface back_freeboard {
 	FFB_ID: string;
@@ -19,7 +20,7 @@ const backFreeBoardSchema: Schema = new Schema({
 });
 backFreeBoardSchema.index({ FFB_ID: 1, TITLE: 1 });
 backFreeBoardSchema.plugin( autoIncrement.plugin, {
-	model: 'backFreeBoardSchema',
+	model: 'back_freeboard',
 	field: 'FFB_ID',
 	startAt: 1,
 	increment: 1
