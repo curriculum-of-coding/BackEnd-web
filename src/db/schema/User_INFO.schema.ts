@@ -28,7 +28,7 @@ let pwdQuestion: Array<string> = [
 ];
 
 const userInfoSchema: Schema = new Schema({
-	USER_ID: Schema.Types.ObjectId,
+	USER_ID: { type: number, required: true },
 	NICKNAME: { type: String, required: true, trim: true, default: },
 	USER_PWD: { type: String, required: true, trim: true, maxLength: 100 },
 	EMAIL: { type: String, required: true, unique: true },
@@ -50,6 +50,12 @@ const userInfoSchema: Schema = new Schema({
 	SUPER_USER: { type: Boolean, default: false },
 });
 userInfoSchema.index({ EMAIL: 1, GITHUB_MAIL: 1, KAKAO_MAIL: 1, GOOGLE_MAIL: 1 });
+userInfoSchema.plugin( autoIncrement.plugin, {
+	model: 'userInfoSchema',
+	field: 'USER_ID',
+	startAt: 1,
+	increment: 1
+});
 
 const UserInfoSchema = model('User_INFO', userInfoSchema);
 

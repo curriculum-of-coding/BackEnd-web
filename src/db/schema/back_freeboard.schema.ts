@@ -11,8 +11,8 @@ interface back_freeboard {
 }
 
 const backFreeBoardSchema: Schema = new Schema({
-	FFB_ID: { type: Number, required: true, unique: true },
-	TITLE: { type: String, required: true, default: NULL, maxLength: 150 },
+	FFB_ID: { type: Number, unique: true },
+	TITLE: { type: String, default: NULL, maxLength: 150 },
 	CONTENT: { type: String, default: NULL, maxLength: 4000 },
 	REG_USER_ID: Schema.Types.ObjectId,
 	REG_DATE: { type: Date, default: Date.now }
