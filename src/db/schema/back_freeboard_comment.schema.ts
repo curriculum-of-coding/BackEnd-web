@@ -14,11 +14,11 @@ interface backFreeBoardComment {
 
 const backFreeBoardCommentSchema: Schema = new Schema({
 	FFBC_ID: { type: Number, default: 0, unique: true },
-	PARENT_ID: Schema.Types.ObjectID,
+	PARENT_ID: Schema.Types.ObjectId,
 	COMMENT: { type: String, default: NULL, maxLength: 1000 },
-	REG_USER_ID: Schema.Types.ObjectID,
+	REG_USER_ID: Schema.Types.ObjectId,
 	REG_DATE: { type: Date, default: Date.now },
-	FFB_ID: Schema.Types.ObjectID
+	FFB_ID: Schema.Types.ObjectId
 });
 backFreeBoardCommentSchema.index({ FFBC_ID: 1 });
 backFreeBoardCommentSchema.plugin( autoIncrement.plugin, {
