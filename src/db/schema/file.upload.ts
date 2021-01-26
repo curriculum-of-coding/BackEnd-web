@@ -20,6 +20,6 @@ const fileUploadSchema: Schema = new Schema({
     REG_DATE: { type: Date, default: Date.now },
 });
 
-const FileUploadSchema = model('User', fileUploadSchema);
+const FileUploadSchema = model('fileUpload', fileUploadSchema);
 
 export { fileUploadSchema, fileUpload };
