@@ -1,6 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, connection } from 'mongoose';
 
 let autoIncrement = require('mongoose-auto-increment');
+autoIncrement.initialize(connection);
 
 interface backQA {
 	FA_ID: number;
@@ -21,7 +22,7 @@ const backQASchema: Schema = new Schema({
 });
 backQASchema.index({ FA_ID: 1, TITLE: 1 });
 backQASchema.plugin( autoIncrement.plugin, {
-	model: 'backQASchema',
+	model: 'back_QA',
 	field: 'FA_ID',
 	startAt: 1,
 	increment: 1
