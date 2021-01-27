@@ -3,7 +3,7 @@ import { Schema, model, connection } from 'mongoose';
 let autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(connection);
 
-interface back_freeboard_like {
+interface backFreeBoardLike {
 	BFBL_ID: number;
 	LIKE_TYPE: enum;
 	REG_USER_ID: ObjectId;
@@ -33,4 +33,4 @@ backFreeBoardLikeSchema.plugin( autoIncrement.plugin, {
 
 const BackFreeBoardLikeSchema = model('back_freeboard_like', backFreeBoardLikeSchema);
 
-export { BackFreeBoardLikeSchema, back_freeboard_like };
+export { BackFreeBoardLikeSchema, backFreeBoardLike };

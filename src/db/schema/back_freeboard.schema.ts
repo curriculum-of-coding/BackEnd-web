@@ -3,7 +3,7 @@ import { model, Schema, connection } from 'mongoose';
 let autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(connection);
 
-interface back_freeboard {
+interface backFreeboard {
 	BFB_ID: string;
 	TITLE: string;
 	CONTENT: string;
@@ -28,4 +28,4 @@ backFreeBoardSchema.plugin( autoIncrement.plugin, {
 
 const BackFreeBoardSchema = model('back_freeboard', backFreeBoardSchema);
 
-export { BackFreeBoardSchema, back_freeboard };
+export { BackFreeBoardSchema, backFreeboard };
