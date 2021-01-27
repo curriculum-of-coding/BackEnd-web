@@ -20,7 +20,7 @@ const backCurriculumLikeSchema: Schema = new Schema ({
 	BCL_ID: { type: Number, required: true, unique: true },
 	LIKE_TYPE: { type: Number, required: true, enum: like_type },
 	REG_USER_ID: Schema.Types.ObjectId,
-	REG_DATE: { type: Date, default: Date.now }
+	REG_DATE: { type: Date, default: Date.now },
 	BC_ID: Schema.Types.ObjectId
 });
 backCurriculumLikeSchema.index({ BCL_ID: 1 });
