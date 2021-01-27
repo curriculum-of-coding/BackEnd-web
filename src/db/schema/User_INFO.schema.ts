@@ -50,7 +50,7 @@ const userInfoSchema: Schema = new Schema({
 	PP_YN: { type: Boolean },
 	REG_DATE: { type: Date, default: Date.now },
 	UPD_DATE: { type: Date, default: NULL },
-	SUPER_USER: { type: Boolean, default: false },
+	SUPER_USER: { type: Boolean, default: false }
 });
 userInfoSchema.index({ EMAIL: 1, GITHUB_MAIL: 1, KAKAO_MAIL: 1, GOOGLE_MAIL: 1 });
 userInfoSchema.plugin( autoIncrement.plugin, {
