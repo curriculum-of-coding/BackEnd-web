@@ -20,7 +20,7 @@ const backFreeBoardLikeSchema: Schema = new Schema ({
 	BFBL_ID: { type: Number, required: true, unique: true },
 	LIKE_TYPE: { type: Number, required: true, enum: like_type },
 	REG_USER_ID: Schema.Types.ObjectId,
-	REG_DATE: { type: Date, default: Date.now }
+	REG_DATE: { type: Date, default: Date.now },
 	BFB_ID: Schema.Types.ObjectId
 });
 backFreeBoardLikeSchema.index({ BFBL_ID: 1 });
