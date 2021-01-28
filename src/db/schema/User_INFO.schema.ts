@@ -3,8 +3,8 @@ import { model, Schema, connection } from 'mongoose';
 let autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(connection);
 
-interface User_INFO {
-	USER_ID: string;
+interface UserINFO {
+	USER_ID: number;
 	USER_PWD: string;
 	EMAIL: string;
 	GITHUB_MAIL: string;
@@ -31,8 +31,8 @@ let pwdQuestion: Array<string> = [
 ];
 
 const userInfoSchema: Schema = new Schema({
-	USER_ID: { type: number, required: true },
-	NICKNAME: { type: String, required: true, trim: true, default: },
+	USER_ID: { type: Number, required: true },
+	NICKNAME: { type: String, required: true, trim: true, default: 'Guest' },
 	USER_PWD: { type: String, required: true, trim: true, maxLength: 100 },
 	EMAIL: { type: String, required: true, unique: true },
 	GITHUB_MAIL: { type: String, unique: true },
