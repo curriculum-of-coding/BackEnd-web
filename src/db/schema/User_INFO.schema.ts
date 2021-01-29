@@ -31,7 +31,7 @@ let pwdQuestion: Array<string> = [
 ];
 
 const userInfoSchema: Schema = new Schema({
-	USER_ID: { type: Number, required: true },
+	USER_ID: { type: Number, required: true, unique: true },
 	NICKNAME: { type: String, required: true, trim: true, default: 'Guest' },
 	USER_PWD: { type: String, required: true, trim: true, maxLength: 100 },
 	EMAIL: { type: String, required: true, unique: true },

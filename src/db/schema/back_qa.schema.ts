@@ -5,19 +5,19 @@ autoIncrement.initialize(connection);
 
 interface backQA {
 	BA_ID: number;
-	PARENT_ID: string;
+	PARENT_ID: number;
 	TITLE: string;
 	CONTENT: string;
-	REG_USER_ID: string;
+	REG_USER_ID: number;
 	REG_DATE: Date;
 };
 
 const backQASchema: Schema = new Schema({
 	BA_ID: { type: Number, unique: true },
-	PARENT_ID: Schema.Types.ObjectId,
+	PARENT_ID: { type: Number, default: 0 },
 	TITLE: { type: String, default: NULL, maxLength: 150 },
 	CONTENT: { type: String, default: NULL, maxLength: 4000 },
-	REG_USER_ID: Schema.Types.ObjectId,
+	REG_USER_ID: { type: Number, default: 0 },
 	REG_DATE: { type: Date, default: Date.now }
 });
 backQASchema.index({ BA_ID: 1, TITLE: 1 });

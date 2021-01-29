@@ -8,10 +8,10 @@ interface backCurriculumYoutube {
 	TITLE: string;
 	LINK_URL: string;
 	SUMMARY: string;
-	REG_USER_ID: string;
+	REG_USER_ID: number;
 	REG_DATE: Date;
 	SORT_ORDER: number;
-	BC_ID: string;
+	BC_ID: number;
 };
 
 const backCurriculumYoutubeSchema: Schema = new Schema({
@@ -19,10 +19,10 @@ const backCurriculumYoutubeSchema: Schema = new Schema({
 	TITLE: { type: String, default: NULL, maxLength: 150 },
 	LINK_URL: { type: String, required: true },
 	SUMMARY: { type: String, default: NULL, maxLength: 4000 },
-	REG_USER_ID: Schema.Types.ObjectId,
+	REG_USER_ID: { type: Number, default: 0 },
 	REG_DATE: { type: Date, default: Date.now },
 	SORT_ORDER: { type: Number, default: 0, required: true },
-	BC_ID: Schema.Types.ObjectId
+	BC_ID: { type: Number, default: 0, required: true }
 });
 backCurriculumYoutubeSchema.index({ BCU_ID: 1, TITLE: 1 });
 backCurriculumYoutubeSchema.plugin( autoIncrement.plugin, {
