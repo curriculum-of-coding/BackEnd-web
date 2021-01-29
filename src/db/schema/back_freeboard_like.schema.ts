@@ -6,9 +6,9 @@ autoIncrement.initialize(connection);
 interface backFreeBoardLike {
 	BFBL_ID: number;
 	LIKE_TYPE: enum;
-	REG_USER_ID: ObjectId;
+	REG_USER_ID: number;
 	REG_DATE: Date;
-	BFB_ID: ObjectId;
+	BFB_ID: number;
 };
 
 let like_type: Array<string> = [
@@ -19,9 +19,9 @@ let like_type: Array<string> = [
 const backFreeBoardLikeSchema: Schema = new Schema ({
 	BFBL_ID: { type: Number, required: true, unique: true },
 	LIKE_TYPE: { type: Number, required: true, enum: like_type },
-	REG_USER_ID: Schema.Types.ObjectId,
+	REG_USER_ID: { type: Number, default: 0 },
 	REG_DATE: { type: Date, default: Date.now },
-	BFB_ID: Schema.Types.ObjectId
+	BFB_ID: { type: Number, default: 0, required: true }
 });
 backFreeBoardLikeSchema.index({ BFBL_ID: 1 });
 backFreeBoardLikeSchema.plugin( autoIncrement.plugin, {

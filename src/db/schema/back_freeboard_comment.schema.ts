@@ -5,20 +5,20 @@ autoIncrement.initialize(connection);
 
 interface backFreeBoardComment {
 	BFBC_ID: number;
-	PARENT_ID: string;
+	PARENT_ID: number;
 	COMMENT: string;
-	REG_USER_ID: string;
+	REG_USER_ID: number;
 	REG_DATE: string;
-	BFB_ID: string;
+	BFB_ID: number;
 };
 
 const backFreeBoardCommentSchema: Schema = new Schema({
 	BFBC_ID: { type: Number, default: 0, unique: true },
-	PARENT_ID: Schema.Types.ObjectId,
+	PARENT_ID: { type: Number, default: 0 },
 	COMMENT: { type: String, default: NULL, maxLength: 1000 },
-	REG_USER_ID: Schema.Types.ObjectId,
+	REG_USER_ID: { type: Number, default: 0 },
 	REG_DATE: { type: Date, default: Date.now },
-	BFB_ID: Schema.Types.ObjectId
+	BFB_ID: { type: Number, default: 0, required: true }
 });
 backFreeBoardCommentSchema.index({ BFBC_ID: 1 });
 backFreeBoardCommentSchema.plugin( autoIncrement.plugin, {

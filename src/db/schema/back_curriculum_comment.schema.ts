@@ -5,20 +5,20 @@ autoIncrement.initialize(connection);
 
 interface backCurriculumComment {
 	BCC_ID: number;
-	PARENT_ID: string;
+	PARENT_ID: number;
 	COMMENT: string;
-	REG_USER_ID: string;
+	REG_USER_ID: number;
 	REG_DATE: Date;
-	BC_ID: string;
+	BC_ID: number;
 };
 
 const backCurriculumCommentSchema: Schema = new Schema({
 	BCC_ID: { type: Number, unique: true },
-	PARENT_ID: Schema.Types.ObjectId,
+	PARENT_ID: { type: Number, default: 0 },
 	COMMENT: { type: String, default: NULL, maxLength: 1000 },
-	REG_USER_ID: Schema.Types.ObjectId,
+	REG_USER_ID: { type: Number, default: 0 },
 	REG_DATE: { type: Date, default: Date.now },
-	FC_ID: Schema.Types.ObjectId
+	BC_ID: { type: Number, default: 0 }
 });
 backCurriculumCommentSchema.index({ BCC_ID: 1 });
 backCurriculumCommentSchema.plugin( autoIncrement.plugin, {
