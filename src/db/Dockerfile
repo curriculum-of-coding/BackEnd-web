@@ -11,6 +11,6 @@ RUN apt-get update\
 
 COPY mongod.conf.orig /etc/
 
-CMD ["mongod", "--bind_ip 0.0.0.0"]
+CMD ["mongod"]
 
 EXPOSE 27017
