@@ -19,11 +19,12 @@ const backCurriculumYoutubeSchema: Schema = new Schema({
     TITLE: { type: String, default: null, maxLength: 150 },
     LINK_URL: { type: String, required: true },
     SUMMARY: { type: String, default: null, maxLength: 4000 },
-    REG_USER_ID: { type: Number, default: 0 },
+    REG_USER_ID: { type: Number, required: true },
     REG_DATE: { type: Date, default: Date.now },
-    SORT_ORDER: { type: Number, default: 0, required: true },
-    BC_ID: { type: Number, default: 0, required: true },
+    SORT_ORDER: { type: Number, default: 0 },
+    BC_ID: { type: Number, required: true },
 });
+
 backCurriculumYoutubeSchema.index({ BCU_ID: 1, TITLE: 1 });
 backCurriculumYoutubeSchema.plugin(autoIncrement.plugin, {
     model: 'back_curriculum_youtube',

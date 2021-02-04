@@ -14,11 +14,11 @@ interface backCurriculumComment {
 
 const backCurriculumCommentSchema: Schema = new Schema({
     BCC_ID: { type: Number, unique: true },
-    PARENT_ID: { type: Number, default: 0 },
+    PARENT_ID: { type: Number, default: null },
     COMMENT: { type: String, default: null, maxLength: 1000 },
-    REG_USER_ID: { type: Number, default: 0 },
+    REG_USER_ID: { type: Number, required: true },
     REG_DATE: { type: Date, default: Date.now },
-    BC_ID: { type: Number, default: 0 },
+    BC_ID: { type: Number, required: true },
 });
 backCurriculumCommentSchema.index({ BCC_ID: 1 });
 backCurriculumCommentSchema.plugin(autoIncrement.plugin, {

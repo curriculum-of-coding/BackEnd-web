@@ -13,12 +13,12 @@ interface backFreeBoardComment {
 }
 
 const backFreeBoardCommentSchema: Schema = new Schema({
-    BFBC_ID: { type: Number, default: 0, unique: true },
-    PARENT_ID: { type: Number, default: 0 },
+    BFBC_ID: { type: Number, unique: true },
+    PARENT_ID: { type: Number, default: null },
     COMMENT: { type: String, default: null, maxLength: 1000 },
-    REG_USER_ID: { type: Number, default: 0 },
+    REG_USER_ID: { type: Number, required: true },
     REG_DATE: { type: Date, default: Date.now },
-    BFB_ID: { type: Number, default: 0, required: true },
+    BFB_ID: { type: Number, required: true },
 });
 backFreeBoardCommentSchema.index({ BFBC_ID: 1 });
 backFreeBoardCommentSchema.plugin(autoIncrement.plugin, {

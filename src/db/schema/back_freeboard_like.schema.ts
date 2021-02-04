@@ -14,11 +14,11 @@ interface backFreeBoardLike {
 const likeType: Array<string> = ['Good', 'Bad'];
 
 const backFreeBoardLikeSchema: Schema = new Schema({
-    BFBL_ID: { type: Number, required: true, unique: true },
+    BFBL_ID: { type: Number, unique: true },
     LIKE_TYPE: { type: Number, required: true, enum: likeType },
-    REG_USER_ID: { type: Number, default: 0 },
+    REG_USER_ID: { type: Number, required: true },
     REG_DATE: { type: Date, default: Date.now },
-    BFB_ID: { type: Number, default: 0, required: true },
+    BFB_ID: { type: Number, required: true },
 });
 backFreeBoardLikeSchema.index({ BFBL_ID: 1 });
 backFreeBoardLikeSchema.plugin(autoIncrement.plugin, {

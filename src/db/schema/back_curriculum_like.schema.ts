@@ -14,12 +14,13 @@ interface backCurriculumLike {
 const likeType: Array<string> = ['Good', 'Bad'];
 
 const backCurriculumLikeSchema: Schema = new Schema({
-    BCL_ID: { type: Number, required: true, unique: true },
+    BCL_ID: { type: Number, unique: true },
     LIKE_TYPE: { type: Number, required: true, enum: likeType },
-    REG_USER_ID: { type: Number, default: 0 },
+    REG_USER_ID: { type: Number, required: true },
     REG_DATE: { type: Date, default: Date.now },
-    BC_ID: { type: Number, default: 0, required: true },
+    BC_ID: { type: Number, required: true },
 });
+
 backCurriculumLikeSchema.index({ BCL_ID: 1 });
 backCurriculumLikeSchema.plugin(autoIncrement.plugin, {
     model: 'back_curriculum_like',

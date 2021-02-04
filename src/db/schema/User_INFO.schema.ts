@@ -28,7 +28,7 @@ interface UserINFO {
 const pwdQuestion: Array<string> = ['Where did you born?', 'When is your birth?'];
 
 const userInfoSchema: Schema = new Schema({
-    USER_ID: { type: Number, required: true, unique: true },
+    USER_ID: { type: Number, unique: true },
     NICKNAME: { type: String, required: true, trim: true, default: 'Guest' },
     USER_PWD: { type: String, required: true, trim: true, maxLength: 100 },
     EMAIL: { type: String, required: true, unique: true },
@@ -40,15 +40,16 @@ const userInfoSchema: Schema = new Schema({
     GOOGLE_AUTH_KEY: { type: String },
     PWD_QUEST_TYPE: { type: Number, required: true, enum: pwdQuestion },
     PWD_ANSWER: { type: String, required: true, default: null },
-    INTEREST_FRONT: { type: Boolean, default: null },
-    INTEREST_BACK: { type: Boolean, default: null },
-    INTEREST_DEVOPS: { type: Boolean, default: null },
-    TOS_YN: { type: Boolean },
-    PP_YN: { type: Boolean },
+    INTEREST_FRONT: { type: Boolean, default: false },
+    INTEREST_BACK: { type: Boolean, default: false },
+    INTEREST_DEVOPS: { type: Boolean, default: false },
+    TOS_YN: { type: Boolean, required: true },
+    PP_YN: { type: Boolean, required: true },
     REG_DATE: { type: Date, default: Date.now },
     UPD_DATE: { type: Date, default: null },
     SUPER_USER: { type: Boolean, default: false },
 });
+
 userInfoSchema.index({ EMAIL: 1, GITHUB_MAIL: 1, KAKAO_MAIL: 1, GOOGLE_MAIL: 1 });
 userInfoSchema.plugin(autoIncrement.plugin, {
     model: 'User_INFO',

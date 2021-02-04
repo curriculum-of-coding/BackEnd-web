@@ -15,7 +15,7 @@ const backFreeBoardSchema: Schema = new Schema({
     BFB_ID: { type: Number, unique: true },
     TITLE: { type: String, default: null, maxLength: 150 },
     CONTENT: { type: String, default: null, maxLength: 4000 },
-    REG_USER_ID: { type: Number, default: 0 },
+    REG_USER_ID: { type: Number, required: true },
     REG_DATE: { type: Date, default: Date.now },
 });
 backFreeBoardSchema.index({ BFB_ID: 1, TITLE: 1 });
