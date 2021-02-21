@@ -19,8 +19,8 @@ const fileUploadSchema: Schema = new Schema({
     FILE_NAME: { type: String, required: true, trim: true },
     FILE_PATH: { type: String, required: true, trim: true },
     FILE_NAME_UUID: { type: String, required: true },
-    REG_USER_ID: { type: Number, required: true},
-    REG_DATE: { type: Date, default: Date.now }
+    REG_USER_ID: { type: Number, required: true },
+    REG_DATE: { type: Date, default: Date.now },
 });
 
 fileUploadSchema.plugin(autoIncrement.plugin, {
