@@ -71,11 +71,11 @@
 <datatype>BINARY</datatype>
 <default>NULL</default><relation table="curriculum_content" row="id" />
 </row>
-<row name="reg_user" null="1" autoincrement="0">
+<row name="regUser" null="1" autoincrement="0">
 <datatype>BINARY</datatype>
 <default>NULL</default><relation table="userInfo" row="id" />
 </row>
-<row name="reg_date" null="1" autoincrement="0">
+<row name="regDate" null="1" autoincrement="0">
 <datatype>DATE</datatype>
 <default>'date.now'</default></row>
 <row name="comments" null="1" autoincrement="0">
@@ -113,17 +113,17 @@
 <row name="title" null="1" autoincrement="0">
 <datatype>VARCHAR(150)</datatype>
 <default>NULL</default></row>
-<row name="notice_type" null="1" autoincrement="0">
+<row name="noticeType" null="1" autoincrement="0">
 <datatype>ENUM(2)</datatype>
 <default>NULL</default></row>
 <row name="content" null="1" autoincrement="0">
 <datatype>MEDIUMTEXT(4000)</datatype>
 <default>NULL</default></row>
-<row name="reg_user" null="1" autoincrement="0">
+<row name="regUser" null="1" autoincrement="0">
 <datatype>BINARY</datatype>
 <default>NULL</default><relation table="userInfo" row="id" />
 </row>
-<row name="reg_date" null="1" autoincrement="0">
+<row name="regDate" null="1" autoincrement="0">
 <datatype>DATE</datatype>
 <default>NULL</default></row>
 <key type="PRIMARY" name="">
@@ -134,34 +134,37 @@
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
+<row name="nickname" null="0" autoincrement="0">
+<datatype>VARCHAR(20)</datatype>
+<default>'Guest'</default></row>
 <row name="email" null="1" autoincrement="0">
 <datatype>VARCHAR(100)</datatype>
 <default>NULL</default></row>
-<row name="user_pwd" null="1" autoincrement="0">
+<row name="userPwd" null="1" autoincrement="0">
 <datatype>VARCHAR(100)</datatype>
 <default>NULL</default></row>
-<row name="github_email" null="1" autoincrement="0">
+<row name="githubEmail" null="1" autoincrement="0">
 <datatype>VARCHAR(100)</datatype>
 <default>NULL</default></row>
-<row name="github_auth_key" null="1" autoincrement="0">
+<row name="githubAuthKey" null="1" autoincrement="0">
 <datatype>VARCHAR(200)</datatype>
 <default>NULL</default></row>
-<row name="kakao_email" null="1" autoincrement="0">
+<row name="kakaoEmail" null="1" autoincrement="0">
 <datatype>VARCHAR(100)</datatype>
 <default>NULL</default></row>
-<row name="kakao_auth_key" null="1" autoincrement="0">
+<row name="kakaoAuthKey" null="1" autoincrement="0">
 <datatype>VARCHAR(200)</datatype>
 <default>NULL</default></row>
-<row name="google_email" null="1" autoincrement="0">
+<row name="googleEmail" null="1" autoincrement="0">
 <datatype>VARCHAR(100)</datatype>
 <default>NULL</default></row>
-<row name="google_auth_key" null="1" autoincrement="0">
+<row name="googleAuthKey" null="1" autoincrement="0">
 <datatype>VARCHAR(200)</datatype>
 <default>NULL</default></row>
-<row name="pwd_quest_type" null="0" autoincrement="0">
+<row name="pwdQuestType" null="0" autoincrement="0">
 <datatype>ENUM(2)</datatype>
 <default>1</default></row>
-<row name="pwd_answer" null="1" autoincrement="0">
+<row name="pwdAnswer" null="1" autoincrement="0">
 <datatype>VARCHAR(200)</datatype>
 <default>NULL</default></row>
 <row name="interests" null="0" autoincrement="0">
@@ -175,18 +178,15 @@
 <datatype>bit(1)</datatype>
 <default>false</default><comment>개인정보처리방침동의여부</comment>
 </row>
-<row name="reg_date" null="1" autoincrement="0">
+<row name="regDate" null="1" autoincrement="0">
 <datatype>DATE</datatype>
 <default>'date.now'</default></row>
-<row name="upd_date" null="1" autoincrement="0">
+<row name="updDate" null="1" autoincrement="0">
 <datatype>DATE</datatype>
 <default>'date.now'</default></row>
-<row name="super_user" null="0" autoincrement="0">
+<row name="isSuperUser" null="0" autoincrement="0">
 <datatype>bit(1)</datatype>
 <default>false</default></row>
-<row name="nickname" null="0" autoincrement="0">
-<datatype>VARCHAR(20)</datatype>
-<default>'Guest'</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
@@ -198,7 +198,7 @@
 <row name="content" null="1" autoincrement="0">
 <datatype>VARCHAR(4000)</datatype>
 <default>NULL</default></row>
-<row name="youtube_link" null="1" autoincrement="0">
+<row name="youtubeUrl" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <row name="filesIncluded" null="1" autoincrement="0">
@@ -219,11 +219,11 @@
 <row name="childs" null="1" autoincrement="0">
 <datatype>BINARY</datatype>
 <default>NULL</default></row>
-<row name="reg_user" null="1" autoincrement="0">
+<row name="regUser" null="1" autoincrement="0">
 <datatype>BINARY</datatype>
 <default>NULL</default><relation table="userInfo" row="id" />
 </row>
-<row name="reg_date" null="0" autoincrement="0">
+<row name="regDate" null="0" autoincrement="0">
 <datatype>DATE</datatype>
 <default>'date.now'</default></row>
 <row name="comment" null="1" autoincrement="0">
@@ -237,14 +237,14 @@
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="like_type" null="1" autoincrement="0">
+<row name="likeType" null="1" autoincrement="0">
 <datatype>ENUM</datatype>
 <default>NULL</default></row>
-<row name="reg_user" null="0" autoincrement="0">
+<row name="regUser" null="0" autoincrement="0">
 <datatype>BINARY</datatype>
 <default>'NULL'</default><relation table="userInfo" row="id" />
 </row>
-<row name="reg_date" null="0" autoincrement="0">
+<row name="regDate" null="0" autoincrement="0">
 <datatype>DATE</datatype>
 <default>'date.now'</default></row>
 <key type="PRIMARY" name="">
@@ -255,20 +255,20 @@
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="file_name" null="0" autoincrement="0">
+<row name="fileName" null="0" autoincrement="0">
 <datatype>VARCHAR</datatype>
 </row>
-<row name="file_path" null="0" autoincrement="0">
+<row name="filePath" null="0" autoincrement="0">
 <datatype>VARCHAR</datatype>
 </row>
-<row name="file_name_uuid" null="0" autoincrement="0">
+<row name="fileNameUuid" null="0" autoincrement="0">
 <datatype>VARCHAR</datatype>
 </row>
-<row name="reg_user" null="1" autoincrement="0">
+<row name="regUser" null="1" autoincrement="0">
 <datatype>BINARY</datatype>
 <default>NULL</default><relation table="userInfo" row="id" />
 </row>
-<row name="reg_date" null="0" autoincrement="0">
+<row name="regDate" null="0" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>'date.now'</default></row>
 <key type="PRIMARY" name="">
