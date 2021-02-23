@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
+<!-- Active URL: https://ondras.zarovi.cz/sql/demo/?keyword=default -->
+<sql>
+<datatypes db="mysql">
+	<group label="Numeric" color="rgb(238,238,170)">
+		<type label="Integer" length="0" sql="INTEGER" quote=""/>
+	 	<type label="TINYINT" length="0" sql="TINYINT" quote=""/>
+	 	<type label="SMALLINT" length="0" sql="SMALLINT" quote=""/>
+	 	<type label="MEDIUMINT" length="0" sql="MEDIUMINT" quote=""/>
+	 	<type label="INT" length="0" sql="INT" quote=""/>
+		<type label="BIGINT" length="0" sql="BIGINT" quote=""/>
+		<type label="Decimal" length="1" sql="DECIMAL" re="DEC" quote=""/>
+		<type label="Single precision" length="0" sql="FLOAT" quote=""/>
+		<type label="Double precision" length="0" sql="DOUBLE" re="DOUBLE" quote=""/>
+	</group>
+
+	<group label="Character" color="rgb(255,200,200)">
+		<type label="Char" length="1" sql="CHAR" quote="'"/>
+		<type label="Varchar" length="1" sql="VARCHAR" quote="'"/>
+		<type label="Text" length="0" sql="MEDIUMTEXT" re="TEXT" quote="'"/>
+		<type label="Binary" length="1" sql="BINARY" quote="'"/>
+		<type label="Varbinary" length="1" sql="VARBINARY" quote="'"/>
+		<type label="BLOB" length="0" sql="BLOB" re="BLOB" quote="'"/>
+	</group>
+
+	<group label="Date &amp; Time" color="rgb(200,255,200)">
+		<type label="Date" length="0" sql="DATE" quote="'"/>
+		<type label="Time" length="0" sql="TIME" quote="'"/>
+		<type label="Datetime" length="0" sql="DATETIME" quote="'"/>
+		<type label="Year" length="0" sql="YEAR" quote=""/>
+		<type label="Timestamp" length="0" sql="TIMESTAMP" quote="'"/>
+	</group>
+
+	<group label="Miscellaneous" color="rgb(200,200,255)">
+		<type label="ENUM" length="1" sql="ENUM" quote=""/>
+		<type label="SET" length="1" sql="SET" quote=""/>
+		<type label="Bit" length="0" sql="bit" quote=""/>
+	</group>
+</datatypes><table x="30" y="74" name="notice">
+<row name="N_ID" null="0" autoincrement="1">
+<datatype>INTEGER(1)</datatype>
+<comment>N_SEQ_PK</comment>
+</row>
+<row name="NOTICE_TYPE" null="0" autoincrement="0">
+<datatype>VARCHAR(2)</datatype>
+<comment>공지사항 타입</comment>
+</row>
+<row name="TITLE" null="1" autoincrement="0">
+<datatype>VARCHAR(150)</datatype>
+<default>NULL</default><comment>제목</comment>
+</row>
+<row name="CONTENT" null="1" autoincrement="0">
+<datatype>VARCHAR(4000)</datatype>
+<default>NULL</default><comment>내용</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>N_ID</part>
+</key>
+<comment>공지사항</comment>
+</table>
+<table x="421" y="71" name="front_freeboard">
+<row name="FFB_ID" null="0" autoincrement="1">
+<datatype>INTEGER(1)</datatype>
+<comment>FFB_SEQ_PK</comment>
+</row>
+<row name="TITLE" null="1" autoincrement="0">
+<datatype>VARCHAR(150)</datatype>
+<default>NULL</default><comment>제목</comment>
+</row>
+<row name="CONTENT" null="1" autoincrement="0">
+<datatype>VARCHAR(4000)</datatype>
+<default>NULL</default><comment>내용</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>FFB_ID</part>
+</key>
+<comment>프론트엔드 자유게시판 메인</comment>
+</table>
+<table x="733" y="68" name="front_freeboard_like">
+<row name="FFBL_ID" null="0" autoincrement="1">
+<datatype>INTEGER(1)</datatype>
+<comment>FFBL_SEQ_PK</comment>
+</row>
+<row name="LIKE_TYPE" null="0" autoincrement="0">
+<datatype>VARCHAR(2)</datatype>
+<comment>좋아요구분</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<row name="FFB_ID" null="0" autoincrement="0">
+<datatype>INTEGER(1)</datatype>
+<relation table="front_freeboard" row="FFB_ID" />
+<comment>FFB_FK</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>FFBL_ID</part>
+</key>
+<comment>프론트엔드 좋아요</comment>
+</table>
+<table x="731" y="248" name="front_freeboard_comment">
+<row name="FFBC_ID" null="0" autoincrement="1">
+<datatype>INTEGER(1)</datatype>
+<comment>FFBC_SEQ_PK</comment>
+</row>
+<row name="PARENT_ID" null="1" autoincrement="0">
+<datatype>INTEGER(1)</datatype>
+<default>NULL</default><comment>상위아이디</comment>
+</row>
+<row name="COMMENT" null="1" autoincrement="0">
+<datatype>VARCHAR(1000)</datatype>
+<default>NULL</default><comment>댓글내용</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<row name="FFB_ID" null="0" autoincrement="0">
+<datatype>INTEGER(1)</datatype>
+<relation table="front_freeboard" row="FFB_ID" />
+<comment>FFB_FK</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>FFBC_ID</part>
+</key>
+<comment>프론트엔드 자유게시판 댓글</comment>
+</table>
+<table x="419" y="517" name="front_curriculum">
+<row name="FC_ID" null="0" autoincrement="1">
+<datatype>INTEGER(1)</datatype>
+<comment>FC_SEQ_PK</comment>
+</row>
+<row name="TITLE" null="1" autoincrement="0">
+<datatype>VARCHAR(150)</datatype>
+<default>NULL</default><comment>제목</comment>
+</row>
+<row name="CONTENT" null="1" autoincrement="0">
+<datatype>VARBINARY(4000)</datatype>
+<default>NULL</default><comment>내용</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>FC_ID</part>
+</key>
+<comment>프론트엔드 커리큘럼 메인</comment>
+</table>
+<table x="723" y="513" name="front_curriculum_youtube">
+<row name="FCU_ID" null="0" autoincrement="1">
+<datatype>INTEGER(1)</datatype>
+<comment>FCU_SEQ_PK</comment>
+</row>
+<row name="TITLE" null="1" autoincrement="0">
+<datatype>VARCHAR(150)</datatype>
+<default>NULL</default><comment>제목</comment>
+</row>
+<row name="LINK_URL" null="0" autoincrement="0">
+<datatype>VARCHAR(1000)</datatype>
+<comment>URL</comment>
+</row>
+<row name="SUMMARY" null="1" autoincrement="0">
+<datatype>VARCHAR(4000)</datatype>
+<default>NULL</default><comment>영상내용</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<row name="SORT_ORDER" null="0" autoincrement="0">
+<datatype>VARCHAR(2)</datatype>
+<comment>정렬순서</comment>
+</row>
+<row name="FC_ID" null="0" autoincrement="0">
+<datatype>INTEGER(1)</datatype>
+<relation table="front_curriculum" row="FC_ID" />
+<comment>FC_FK</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>FCU_ID</part>
+</key>
+<comment>프론트엔드 커리큘럼 유튜브 링크</comment>
+</table>
+<table x="713" y="755" name="front_curriculum_comment">
+<row name="FCC_ID" null="0" autoincrement="1">
+<datatype>INTEGER(1)</datatype>
+<comment>FCC_SEQ_PK</comment>
+</row>
+<row name="PARENT_ID" null="1" autoincrement="0">
+<datatype>INTEGER(1)</datatype>
+<default>NULL</default><comment>상위아이디</comment>
+</row>
+<row name="COMMENT" null="1" autoincrement="0">
+<datatype>VARCHAR(1000)</datatype>
+<default>NULL</default><comment>댓글내용</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<row name="FC_ID" null="0" autoincrement="0">
+<datatype>INTEGER(1)</datatype>
+<relation table="front_curriculum" row="FC_ID" />
+<comment>FC_FK</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>FCC_ID</part>
+</key>
+<comment>프론트엔드 커리큘럼 댓글</comment>
+</table>
+<table x="716" y="965" name="front_curriculum_like">
+<row name="FCL_ID" null="0" autoincrement="1">
+<datatype>INTEGER(1)</datatype>
+<comment>FCL_SEQ_PK</comment>
+</row>
+<row name="LIKE_TYPE" null="0" autoincrement="0">
+<datatype>VARCHAR(2)</datatype>
+<comment>좋아요구분</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<row name="FC_ID" null="0" autoincrement="0">
+<datatype>INTEGER(1)</datatype>
+<relation table="front_curriculum" row="FC_ID" />
+<comment>FC_FK</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>FCL_ID</part>
+</key>
+<comment>프론트엔드 커리큘럼 좋아요</comment>
+</table>
+<table x="199" y="73" name="USER_INFO">
+<row name="USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>사용자아이디</comment>
+</row>
+<row name="USER_PWD" null="0" autoincrement="0">
+<datatype>VARCHAR(100)</datatype>
+<comment>사용자패스워드</comment>
+</row>
+<row name="EMAIL" null="0" autoincrement="0">
+<datatype>VARCHAR(100)</datatype>
+<comment>사용자이메일</comment>
+</row>
+<row name="LOGIN_TOKEN" null="1" autoincrement="0">
+<datatype>VARCHAR(200)</datatype>
+<default>NULL</default><comment>로그인토큰</comment>
+</row>
+<row name="GITHUB_MAIL" null="1" autoincrement="0">
+<datatype>VARCHAR(100)</datatype>
+<default>NULL</default><comment>깃허브연동이메일</comment>
+</row>
+<row name="GITHUB_LOGIN_TOKEN" null="1" autoincrement="0">
+<datatype>VARCHAR(200)</datatype>
+<default>NULL</default><comment>깃허브SSO토큰</comment>
+</row>
+<row name="KAKAO_MAIL" null="1" autoincrement="0">
+<datatype>VARCHAR(100)</datatype>
+<default>NULL</default><comment>카카오톡연동이메일</comment>
+</row>
+<row name="KAKAO_LOGIN_TOKEN" null="1" autoincrement="0">
+<datatype>VARCHAR(200)</datatype>
+<default>NULL</default><comment>카카오톡SSO토큰</comment>
+</row>
+<row name="GOOGLE_MAIL" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT(100)</datatype>
+<default>NULL</default><comment>구글연동이메일</comment>
+</row>
+<row name="GOOGLE_LOGIN_TOKEN" null="1" autoincrement="0">
+<datatype>VARCHAR(200)</datatype>
+<default>NULL</default><comment>구글SSO토큰</comment>
+</row>
+<row name="PWD_QUEST_TYPE" null="0" autoincrement="0">
+<datatype>VARCHAR(2)</datatype>
+<comment>비밀번호찾기질문유형</comment>
+</row>
+<row name="PWD_ANSWER" null="0" autoincrement="0">
+<datatype>VARCHAR(200)</datatype>
+<comment>비밀번호찾기대답</comment>
+</row>
+<row name="INTEREST_FRONT" null="1" autoincrement="0">
+<datatype>VARCHAR(1)</datatype>
+<default>NULL</default><comment>관심분야_프론트엔드</comment>
+</row>
+<row name="INTEREST_BACK" null="1" autoincrement="0">
+<datatype>VARCHAR(1)</datatype>
+<default>NULL</default><comment>관심분야_백엔드</comment>
+</row>
+<row name="INTEREST_DEVPOS" null="1" autoincrement="0">
+<datatype>VARCHAR(1)</datatype>
+<default>NULL</default><comment>관심분야_데브옵스</comment>
+</row>
+<row name="TOS_YN" null="0" autoincrement="0">
+<datatype>VARCHAR(1)</datatype>
+<comment>서비스이용약관동의여부</comment>
+</row>
+<row name="PP_YN" null="0" autoincrement="0">
+<datatype>VARCHAR(1)</datatype>
+<comment>개인정보처리방침동의여부</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<row name="UPD_DATE" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default><comment>수정일시</comment>
+</row>
+<row name="SUPER_USER" null="0" autoincrement="0">
+<datatype>bit(1)</datatype>
+<default>0</default><comment>super</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>USER_ID</part>
+</key>
+<comment>사용자 정보</comment>
+</table>
+<table x="396" y="1057" name="common_upload_sub">
+<row name="CUS_ID" null="0" autoincrement="1">
+<datatype>VARCHAR(12)</datatype>
+<relation table="common_upload_mst" row="CUM_ID" />
+<comment>CUS_SEQ_PK</comment>
+</row>
+<row name="CUS_SEQ" null="1" autoincrement="0">
+<datatype>INTEGER(1)</datatype>
+<default>NULL</default><comment>일련번호</comment>
+</row>
+<row name="FILE_NAME" null="0" autoincrement="0">
+<datatype>VARCHAR(200)</datatype>
+<comment>파일명</comment>
+</row>
+<row name="FILE_PATH" null="0" autoincrement="0">
+<datatype>VARCHAR(200)</datatype>
+<comment>파일경로</comment>
+</row>
+<row name="FILE_NAME_UUID" null="0" autoincrement="0">
+<datatype>INTEGER(250)</datatype>
+<comment>파일명_UUID</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>CUS_ID</part>
+</key>
+<comment>공통 파일업로드 서브</comment>
+</table>
+<table x="68" y="1057" name="common_upload_mst">
+<row name="CUM_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(12)</datatype>
+<comment>게시판형식/게시글아이디</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>CUM_ID</part>
+</key>
+<comment>공통 업로드 마스터</comment>
+</table>
+<table x="1002" y="65" name="front_qa">
+<row name="FA_ID" null="0" autoincrement="1">
+<datatype>INTEGER</datatype>
+<comment>FA_SEQ_PK</comment>
+</row>
+<row name="PARENT_ID" null="1" autoincrement="0">
+<datatype>INTEGER(1)</datatype>
+<default>NULL</default><comment>상위아이디</comment>
+</row>
+<row name="TITLE" null="1" autoincrement="0">
+<datatype>VARCHAR(150)</datatype>
+<default>NULL</default><comment>제목</comment>
+</row>
+<row name="CONTENT" null="1" autoincrement="0">
+<datatype>VARCHAR(4000)</datatype>
+<default>NULL</default><comment>내용</comment>
+</row>
+<row name="REG_USER_ID" null="0" autoincrement="0">
+<datatype>VARCHAR(50)</datatype>
+<comment>등록자아이디</comment>
+</row>
+<row name="REG_DATE" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<comment>등록일시</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>FA_ID</part>
+</key>
+<comment>질답 게시판</comment>
+</table>
+</sql>
