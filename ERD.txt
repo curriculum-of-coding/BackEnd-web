@@ -90,15 +90,36 @@
 <part>id</part>
 </key>
 </table>
-<table x="237" y="529" name="freeboard">
+<table x="241" y="527" name="freeboard">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
+<row name="title" null="1" autoincrement="0">
+<datatype>VARCHAR(150)</datatype>
+<default>NULL</default></row>
+<row name="content" null="1" autoincrement="0">
+<datatype>VARCHAR(4000)</datatype>
+<default>NULL</default></row>
+<row name="comments" null="1" autoincrement="0">
+<datatype>BINARY</datatype>
+<default>NULL</default><relation table="freeboard_comment" row="id" />
+</row>
+<row name="likes" null="1" autoincrement="0">
+<datatype>BINARY</datatype>
+<default>NULL</default><relation table="freeboard_like" row="id" />
+</row>
+<row name="regUser" null="0" autoincrement="0">
+<datatype>BINARY</datatype>
+<relation table="userInfo" row="id" />
+</row>
+<row name="regDate" null="0" autoincrement="0">
+<datatype>DATE</datatype>
+<default>'date.now'</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="222" y="802" name="qa">
+<table x="234" y="814" name="qa">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -218,6 +239,10 @@
 <default>NULL</default></row>
 <row name="childs" null="1" autoincrement="0">
 <datatype>BINARY</datatype>
+<default>NULL</default><relation table="curriculum_comment" row="id" />
+</row>
+<row name="comment" null="1" autoincrement="0">
+<datatype>VARCHAR(1000)</datatype>
 <default>NULL</default></row>
 <row name="regUser" null="1" autoincrement="0">
 <datatype>BINARY</datatype>
@@ -226,9 +251,6 @@
 <row name="regDate" null="0" autoincrement="0">
 <datatype>DATE</datatype>
 <default>'date.now'</default></row>
-<row name="comment" null="1" autoincrement="0">
-<datatype>VARCHAR(1000)</datatype>
-<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
@@ -270,6 +292,45 @@
 </row>
 <row name="regDate" null="0" autoincrement="0">
 <datatype>VARCHAR</datatype>
+<default>'date.now'</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="492" y="535" name="freeboard_comment">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="childs" null="1" autoincrement="0">
+<datatype>BINARY</datatype>
+<default>NULL</default><relation table="freeboard_comment" row="id" />
+</row>
+<row name="comment" null="1" autoincrement="0">
+<datatype>VARCHAR(1000)</datatype>
+<default>NULL</default></row>
+<row name="regUser" null="0" autoincrement="0">
+<datatype>BINARY</datatype>
+<relation table="userInfo" row="id" />
+</row>
+<row name="regDate" null="0" autoincrement="0">
+<datatype>DATE</datatype>
+<default>'date.now'</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="492" y="713" name="freeboard_like">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="likeType" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default></row>
+<row name="regUser" null="0" autoincrement="0">
+<datatype>BINARY</datatype>
+</row>
+<row name="regDate" null="0" autoincrement="0">
+<datatype>DATE</datatype>
 <default>'date.now'</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
