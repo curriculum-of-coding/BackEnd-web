@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:14.16
 
 #FROM ubuntu:20.04
 
