@@ -11,7 +11,7 @@ class DB {
     };
     constructor() {
         this.db = mongoose.connection;
-        require('./schema/test.schema.ts');
+        require('./schema/test.schema');
         // this.db.on('disconnected', connect);
     }
 
