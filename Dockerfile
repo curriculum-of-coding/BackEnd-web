@@ -12,7 +12,7 @@ RUN mkdir /root/Backend
 RUN mkdir /root/Backend/dist
 WORKDIR /root/Backend
 
-COPY package*.json /root/Backend
+COPY package*.json /root/Backend/
 COPY tsconfig.json /root/Backend
 
 RUN npm install
