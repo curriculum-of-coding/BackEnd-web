@@ -3,7 +3,7 @@
         "browser": true,
         "es2021": true
     },
-    "extends": [ 
+    "extends": [
         "google",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
@@ -19,18 +19,28 @@
     "plugins": [
         "@typescript-eslint"
     ],
-    "ignorePatterns": ["dist/", "node_modules/", "src/db/Dockerfile", "src/db/mongod.conf.orig"],
+    "ignorePatterns": [
+        "dist/",
+        "node_modules/",
+        "src/db/Dockerfile",
+        "src/db/mongod.conf.orig"
+    ],
     "rules": {
-        "require-jsdoc": ["error", {
-            "require": {
-                "FunctionDeclaration": true,
-                "MethodDefinition": false,
-                "ClassDeclaration": false,
-                "ArrowFunctionExpression": false,
-                "FunctionExpression": false
+        "require-jsdoc": [
+            "error",
+            {
+                "require": {
+                    "FunctionDeclaration": false,
+                    "MethodDefinition": false,
+                    "ClassDeclaration": false,
+                    "ArrowFunctionExpression": false,
+                    "FunctionExpression": false
+                }
             }
-        }],
+        ],
         "no-invalid-this": "off",
-        "@typescript-eslint/no-invalid-this": ["error"]
+        "@typescript-eslint/no-invalid-this": [
+            "error"
+        ]
     }
 }

@@ -168,3 +168,16 @@ export function updateQNA(req: Request, res: Response) {
     // Todo
     return res.json();
 }
+
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} _next
+ * @return {JSON} res.json
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function deleteQNA(req: Request, res: Response) {
+    // Todo
+    return res.json();
+}

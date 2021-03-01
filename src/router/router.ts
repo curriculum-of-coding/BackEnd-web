@@ -34,5 +34,6 @@ router.get('/api/board/:type/QNA', board.getQNA);
 router.get('/api/board/:type/QNA/:id', board.getQNADetail);
 router.post('/api/board/:type/QNA/create', board.createQNA);
 router.post('/api/board/:type/QNA/:id/update', board.updateQNA);
+router.delete('/api/board/:type/QNA/:id/delete', board.deleteQNA);
 
 export default router;
