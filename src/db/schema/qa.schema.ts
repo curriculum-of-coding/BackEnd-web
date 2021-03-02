@@ -5,6 +5,7 @@ interface QA {
     content: string;
     regUser: number;
     regDate: Date;
+    comments: Array<string>;
 }
 
 const _QASchema: Schema = new Schema({
@@ -12,6 +13,7 @@ const _QASchema: Schema = new Schema({
     content: { type: String, default: null, maxLength: 4000 },
     regUser: { type: Schema.Types.ObjectId, required: true },
     regDate: { type: Date, default: Date.now },
+    comments: { type: [Schema.Types.ObjectId], default: null },
 });
 _QASchema.index({ TITLE: 1 });
 

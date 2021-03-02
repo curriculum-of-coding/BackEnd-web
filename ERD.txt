@@ -119,7 +119,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="249" y="442" name="qa">
+<table x="246" y="457" name="qa">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -131,10 +131,15 @@
 <default>NULL</default></row>
 <row name="regUser" null="0" autoincrement="0">
 <datatype>BINARY</datatype>
+<relation table="userInfo" row="id" />
 </row>
 <row name="regDate" null="0" autoincrement="0">
 <datatype>DATE</datatype>
 <default>'date.now'</default></row>
+<row name="comments" null="1" autoincrement="0">
+<datatype>BINARY</datatype>
+<default>NULL</default><relation table="comment" row="id" />
+</row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>

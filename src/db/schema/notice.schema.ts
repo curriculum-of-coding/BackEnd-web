@@ -8,7 +8,7 @@ interface notice {
     regDate: Date;
 }
 
-const noticeTypes = [''];
+const noticeTypes = [];
 
 const noticeSchema: Schema = new Schema({
     title: { type: String, default: null, maxLength: 1000 },
