@@ -7,9 +7,9 @@ VOLUME ["/data/db"]
 WORKDIR /data
 
 RUN apt-get update\
- && apt-get install -y vim \
- && apt-get install -y ubuntu-snappy-cli \
- && apt-get install -y zlib1g-dev
+    && apt-get install -y vim \
+    && apt-get install -y ubuntu-snappy-cli \
+    && apt-get install -y zlib1g-dev
 
 COPY mongod.conf.orig /etc/
 

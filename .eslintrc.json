@@ -30,7 +30,7 @@
             "error",
             {
                 "require": {
-                    "FunctionDeclaration": false,
+                    "FunctionDeclaration": true,
                     "MethodDefinition": false,
                     "ClassDeclaration": false,
                     "ArrowFunctionExpression": false,
