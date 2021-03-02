@@ -60,7 +60,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="249" y="37" name="curriculum">
+<table x="248" y="21" name="curriculum">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -86,11 +86,14 @@
 <datatype>BINARY</datatype>
 <default>NULL</default><relation table="like" row="id" />
 </row>
+<row name="type" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="248" y="243" name="freeboard">
+<table x="248" y="247" name="freeboard">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -115,11 +118,14 @@
 <row name="regDate" null="0" autoincrement="0">
 <datatype>DATE</datatype>
 <default>'date.now'</default></row>
+<row name="type" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="246" y="457" name="qa">
+<table x="247" y="493" name="qa">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -140,6 +146,9 @@
 <datatype>BINARY</datatype>
 <default>NULL</default><relation table="comment" row="id" />
 </row>
+<row name="type" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>

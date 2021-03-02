@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import { domainTypes } from './boardWrap.schema';
 
 interface freeboard {
     title: string;
@@ -16,6 +17,7 @@ const freeBoardSchema: Schema = new Schema({
     likes: { type: [Schema.Types.ObjectId], default: null },
     regUser: { type: Schema.Types.ObjectId, required: true },
     regDate: { type: Date, default: Date.now },
+    type: { type: String, default: null, enum: domainTypes },
 });
 freeBoardSchema.index({ TITLE: 1 });
 

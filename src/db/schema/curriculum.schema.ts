@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import { domainTypes } from './boardWrap.schema';
 
 interface curriculum {
     title: string;
@@ -7,6 +8,7 @@ interface curriculum {
     regDate: Date;
     comments: Array<string>;
     likes: Array<string>;
+    type: string;
 }
 
 const curriculumSchema: Schema = new Schema({
@@ -16,6 +18,7 @@ const curriculumSchema: Schema = new Schema({
     regDate: { type: Date, default: Date.now },
     comments: { type: [Schema.Types.ObjectId], default: null },
     likes: { type: Schema.Types.ObjectId, default: null },
+    type: { type: String, default: null, enum: domainTypes },
 });
 curriculumSchema.index({ title: 1 });
 
