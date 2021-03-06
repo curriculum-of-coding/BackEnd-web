@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { isValidObjectId } from 'mongoose';
+import { BoardWrapSchema } from '../db/schema/boardWrap.schema';
 import { CurriculumSchema } from '../db/schema/curriculum.schema';
 import { FreeBoardSchema } from '../db/schema/freeboard.schema';
 import { QASchema } from '../db/schema/qa.schema';
@@ -53,9 +55,12 @@ export async function getTypeRecentBoards(req: Request, res: Response) {
  * @param {NextFunction} _next
  * @return {JSON} res.json
  */
-export function getFreeboard(req: Request, res: Response) {
-    // Todo
-    return res.json();
+export async function getFreeboard(req: Request, res: Response) {
+    const freeboardIds = await BoardWrapSchema.findOne({ type: req.params['type'] })['freeboard'];
+    const result = {
+        ...freeboardIds.map((Id) => FreeBoardSchema.findById({ _id: Id })),
+    };
+    return res.json(result);
 }
 
 /**
@@ -65,9 +70,9 @@ export function getFreeboard(req: Request, res: Response) {
  * @param {NextFunction} _next
  * @return {JSON} res.json
  */
-export function getFreeboardDetail(req: Request, res: Response) {
-    // Todo
-    return res.json();
+export async function getFreeboardDetail(req: Request, res: Response) {
+    const result = await FreeBoardSchema.findById({ _id: req.params['id'] });
+    return res.json(result);
 }
 
 /**
