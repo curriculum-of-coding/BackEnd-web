@@ -11,6 +11,7 @@ class App {
 
 const app: express.Application = new App().application;
 
+app.use(express.json());
 app.use('/', router);
 
 app.use((req: Request, res: Response, next: NextFunction) => {

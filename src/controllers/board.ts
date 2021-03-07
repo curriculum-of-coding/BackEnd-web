@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { isValidObjectId } from 'mongoose';
+import { resourceLimits } from 'node:worker_threads';
 import { BoardWrapSchema } from '../db/schema/boardWrap.schema';
 import { CurriculumSchema } from '../db/schema/curriculum.schema';
 import { FreeBoardSchema } from '../db/schema/freeboard.schema';
@@ -56,11 +57,20 @@ export async function getTypeRecentBoards(req: Request, res: Response) {
  * @return {JSON} res.json
  */
 export async function getFreeboard(req: Request, res: Response) {
-    const freeboardIds = await BoardWrapSchema.findOne({ type: req.params['type'] })['freeboard'];
-    const result = {
-        ...freeboardIds.map((Id) => FreeBoardSchema.findById({ _id: Id })),
-    };
-    return res.json(result);
+    const boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
+    const freeboardIds: [string] = boardWrap['freeboard'];
+    if (freeboardIds) {
+        let freeboards = [];
+        for (const id of freeboardIds) {
+            freeboards = [...freeboards, await FreeBoardSchema.findById({ _id: id })];
+        }
+        return res.json(freeboards);
+    } else {
+        return res.json({
+            code: 500,
+            message: 'freeboardIds not found',
+        });
+    }
 }
 
 /**
@@ -82,9 +92,46 @@ export async function getFreeboardDetail(req: Request, res: Response) {
  * @param {NextFunction} _next
  * @return {JSON} res.json
  */
-export function createFreeboard(req: Request, res: Response) {
-    // Todo
-    return res.json();
+export async function createFreeboard(req: Request, res: Response) {
+    if (req.body) {
+        const document = {
+            title: req.body['title'],
+            content: req.body['content'],
+            regUser: '6044e99159adab64c4d10263',
+            type: req.params['type'],
+        };
+        const freeboard = await FreeBoardSchema.create(document);
+        if (!freeboard) {
+            return res.json({
+                code: 500,
+                message: 'Freeboard Document Creation Failed',
+            });
+        }
+        const boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
+        if (boardWrap) {
+            boardWrap['freeboard'].push(freeboard._id);
+            await BoardWrapSchema.updateOne({ type: req.params['type'] }, boardWrap);
+            return res.json({
+                code: 200,
+                message: 'Success',
+            });
+        } else {
+            const newBoardWrap = {
+                freeboard: [freeboard._id],
+                type: req.params['type'],
+            };
+            BoardWrapSchema.create(newBoardWrap);
+            return res.json({
+                code: 200,
+                message: 'Success',
+            });
+        }
+    } else {
+        return res.json({
+            code: 500,
+            message: 'Body from require is missing',
+        });
+    }
 }
 
 /**

@@ -15,7 +15,7 @@ const freeBoardSchema: Schema = new Schema({
     content: { type: String, default: null, maxLength: 4000 },
     comments: { type: [Schema.Types.ObjectId], default: null },
     likes: { type: [Schema.Types.ObjectId], default: null },
-    regUser: { type: Schema.Types.ObjectId, required: true },
+    regUser: { type: Schema.Types.ObjectId, required: false },
     regDate: { type: Date, default: Date.now },
     type: { type: String, default: null, enum: domainTypes },
 });
