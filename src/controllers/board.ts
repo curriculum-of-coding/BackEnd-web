@@ -23,27 +23,45 @@ export async function getTypeRecentBoards(req: Request, res: Response) {
         .sort({ regDate: -1 })
         .limit(5);
     const recentQNA = await QASchema.find({ type: domainType }).sort({ regDate: -1 }).limit(5);
-    while (result.length < 5) {
-        let temp = recentCurriculum[0]['regDate'];
-        let inx = 0;
-        if (temp < recentFreeboard[0]['regDate']) {
-            temp = recentFreeboard[0]['regDate'];
-            inx = 1;
-        }
-        if (temp < recentQNA[0]['regDate']) {
-            temp = recentQNA[0]['regDate'];
-            inx = 2;
-        }
-        switch (inx) {
-            case 0:
-                result.push(recentCurriculum.shift());
-                break;
-            case 1:
-                result.push(recentFreeboard.shift());
-                break;
-            case 2:
-                result.push(recentQNA.shift());
-                break;
+    if (recentFreeboard.length + recentQNA.length + recentCurriculum.length <= 5) {
+        result.push(...recentCurriculum);
+        result.push(...recentFreeboard);
+        result.push(...recentQNA);
+    } else {
+        while (result.length < 5) {
+            let temp;
+            let inx;
+            if (recentCurriculum.length > 0) {
+                temp = recentCurriculum[0]['regDate'];
+                inx = 0;
+            }
+            if (recentFreeboard.length > 0) {
+                if (!temp) {
+                    temp = recentFreeboard[0]['regdate'];
+                } else if (temp < recentFreeboard[0]['regDate']) {
+                    temp = recentFreeboard[0]['regDate'];
+                    inx = 1;
+                }
+            }
+            if (recentQNA.length > 0) {
+                if (!temp) {
+                    temp = recentQNA[0]['regdate'];
+                } else if (temp < recentQNA[0]['regDate']) {
+                    temp = recentQNA[0]['regDate'];
+                    inx = 2;
+                }
+            }
+            switch (inx) {
+                case 0:
+                    result.push(recentCurriculum.shift());
+                    break;
+                case 1:
+                    result.push(recentFreeboard.shift());
+                    break;
+                case 2:
+                    result.push(recentQNA.shift());
+                    break;
+            }
         }
     }
     return res.json(result);
@@ -153,9 +171,17 @@ export function updateFreeboard(req: Request, res: Response) {
  * @param {NextFunction} _next
  * @return {JSON} res.json
  */
-export function deleteFreeboard(req: Request, res: Response) {
-    // Todo
-    return res.json();
+export async function deleteFreeboard(req: Request, res: Response) {
+    await FreeBoardSchema.findByIdAndDelete({ _id: req.params['id'] });
+    const boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
+    const freeboardIds: [string] = boardWrap['freeboard'];
+    freeboardIds.splice(freeboardIds.indexOf(req.params['id']), 1);
+    boardWrap['freeboard'] = freeboardIds;
+    await BoardWrapSchema.updateOne({ type: req.params['type'] }, boardWrap);
+    return res.json({
+        code: 200,
+        message: 'Success',
+    });
 }
 
 /**
