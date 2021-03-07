@@ -47,6 +47,25 @@ const userInfoSchema: Schema = new Schema({
 
 userInfoSchema.index({ nickname: 1, email: 1, github_email: 1, kakao_email: 1, google_email: 1 });
 
+/* userInfoSchema.methods.updateUser = function (user, cb) {
+    UserInfoSchema.find({ name: user.name }).exec(function (err, docs) {
+        if (docs.length) {
+            cb('Name exists already', null);
+        } else {
+            if (Number.isInteger(user.pwdQuestType)) {
+                if (
+                    Number(user.pwdQuestType) >= 0 &&
+                    Number(user.pwdQuestType) < pwdQuestion.length
+                ) {
+                    user.pwdQuestType = pwdQuestion[Number(user.pwdQuestType)];
+                    user.save(function (err) {
+                        cb(err, user);
+                    });
+                }
+            }
+            cb('pwdQuestType is not correct');
+        }
+    });
+};*/
 const UserInfoSchema = model('userInfo', userInfoSchema);
-
-export { UserInfoSchema, UserINFO };
+export { UserInfoSchema, userInfoSchema, UserINFO, pwdQuestion };

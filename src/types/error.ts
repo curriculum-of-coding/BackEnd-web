@@ -8,7 +8,9 @@ export class HTTPError extends Error {
     get rawStatusCode(): number {
         return this.statusCode;
     }
-
+    get rawMessage(): string {
+        return this.message;
+    }
     get rawData(): unknown {
         return this.data;
     }

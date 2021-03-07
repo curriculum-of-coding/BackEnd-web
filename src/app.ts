@@ -6,6 +6,7 @@ class App {
     public application: express.Application;
     constructor() {
         this.application = express();
+        this.application.use(express.json());
     }
 }
 
