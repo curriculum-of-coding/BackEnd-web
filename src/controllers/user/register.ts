@@ -18,9 +18,9 @@ export function Register(req: Request, res: Response, next: NextFunction): void 
     }
 
     if (type === undefined) {
-        const email: string = req.body['email'] ?? `test${Math.random()}`;
+        const email: string = req.body['email'];
         const password: string = req.body['password'];
-        const nickname: string = req.body['nickname'] ?? 'nickname';
+        const nickname: string = req.body['nickname'];
         const PWDQuestType: number = Number(req.body['PWDQuestType']) ?? -1;
         const PWDAnswer: string = req.body['PWDAnswer'];
         const interest = req.body['interest'];

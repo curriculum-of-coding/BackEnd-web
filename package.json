@@ -24,6 +24,7 @@
     "@types/mongoose": "~5.10.3",
     "@types/mongoose-auto-increment": "^5.0.33",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
