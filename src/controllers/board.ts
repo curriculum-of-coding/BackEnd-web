@@ -1,6 +1,4 @@
 import { Request, Response } from 'express';
-import { isValidObjectId } from 'mongoose';
-import { resourceLimits } from 'node:worker_threads';
 import { BoardWrapSchema } from '../db/schema/boardWrap.schema';
 import { CurriculumSchema } from '../db/schema/curriculum.schema';
 import { FreeBoardSchema } from '../db/schema/freeboard.schema';
@@ -147,7 +145,7 @@ export async function createFreeboard(req: Request, res: Response) {
     } else {
         return res.json({
             code: 500,
-            message: 'Body from require is missing',
+            message: 'Body for create from require is missing',
         });
     }
 }
@@ -159,9 +157,22 @@ export async function createFreeboard(req: Request, res: Response) {
  * @param {NextFunction} _next
  * @return {JSON} res.json
  */
-export function updateFreeboard(req: Request, res: Response) {
-    // Todo
-    return res.json();
+export async function updateFreeboard(req: Request, res: Response) {
+    if (req.body) {
+        const freeboard = await FreeBoardSchema.findById({ _id: req.params['id'] });
+        freeboard['title'] = req.body['title'];
+        freeboard['content'] = req.body['content'];
+        await FreeBoardSchema.findByIdAndUpdate({ _id: req.params['id'] }, freeboard);
+        return res.json({
+            code: 200,
+            message: 'Success',
+        });
+    } else {
+        res.json({
+            code: 500,
+            message: 'Body for update from require is missing',
+        });
+    }
 }
 
 /**
