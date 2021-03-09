@@ -1,6 +1,20 @@
 import { NextFunction, Request, Response } from 'express';
 import { pwdQuestion, UserInfoSchema } from '../../db/schema/userInfo.schema';
 import { HTTPError } from '../../types/error';
+
+interface Term {
+    TOS: string;
+    PP: string;
+}
+
+interface CommonUserInfo {
+    email: string;
+    password: string;
+    nickname: string;
+    PWDQuestType?: number;
+    PWDAnswer: string;
+    interest: unknown;
+}
 /**
  *
  * @param {Request} req
@@ -9,21 +23,24 @@ import { HTTPError } from '../../types/error';
  */
 export function Register(req: Request, res: Response, next: NextFunction): void {
     const type: string = req.query['type']?.toString();
-    const TOS: string = req.body['TOS'] ?? 'N';
-    const PP: string = req.body['PP'] ?? 'N';
 
-    if (TOS === 'N' || PP == 'N') {
+    const { TOS, PP }: Term = req.body;
+
+    if (TOS !== 'Y' || PP !== 'Y') {
         next(new HTTPError(400, 'TOS & PP is not agree'));
         return;
     }
 
     if (type === undefined) {
-        const email: string = req.body['email'];
-        const password: string = req.body['password'];
-        const nickname: string = req.body['nickname'];
-        const PWDQuestType: number = Number(req.body['PWDQuestType']) ?? -1;
-        const PWDAnswer: string = req.body['PWDAnswer'];
-        const interest = req.body['interest'];
+        const {
+            email,
+            password,
+            nickname,
+            PWDQuestType,
+            PWDAnswer,
+            interest,
+        }: CommonUserInfo = req.body;
+
         if (PWDQuestType < 0 || PWDQuestType >= pwdQuestion.length) {
             next(new HTTPError(400, 'PWDQuestType is incorrect'));
             return;
@@ -55,7 +72,8 @@ export function Register(req: Request, res: Response, next: NextFunction): void 
             }
         });
     } else {
-        const oauth: string = req.body['oauth'];
+        const { oauth }: { oauth: string } = req.body;
+        console.log(`[Test] ${oauth}`);
         if (type === 'github') {
         } else if (type === 'kakao') {
         } else if (type === 'google') {
