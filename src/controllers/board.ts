@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { CurriculumSchema } from '../db/schema/curriculum.schema';
 import { FreeBoardSchema } from '../db/schema/freeboard.schema';
 import { QASchema } from '../db/schema/qa.schema';
+import { BoardWrapSchema } from '../db/schema/boardWrap.schema';
 
 /**
  *
@@ -173,9 +174,21 @@ export function deleteCurriculum(req: Request, res: Response) {
  * @param {NextFunction} _next
  * @return {JSON} res.json
  */
-export function getQNA(req: Request, res: Response) {
-    // Todo
-    return res.json();
+export async function getQNA(req: Request, res: Response) {
+    const boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
+    const qnaIds: [string] = boardWrap['qna'];
+    if (qnaIds) {
+        let qnas = [];
+        for (const id of qnaIds) {
+            qnas = [...qnas, await QASchema.findById({ _id: id })];
+        }
+        return res.json(qnas);
+    } else {
+        return res.json({
+            code: 500,
+            message: 'qnaIds not found',
+        });
+    }
 }
 
 /**
@@ -197,9 +210,46 @@ export function getQNADetail(req: Request, res: Response) {
  * @param {NextFunction} _next
  * @return {JSON} res.json
  */
-export function createQNA(req: Request, res: Response) {
-    // Todo
-    return res.json();
+export async function createQNA(req: Request, res: Response) {
+    if (req.body) {
+        const document = {
+            title: req.body['title'],
+            content: req.body['content'],
+            regUser: '6044e99159adab64c4d10263',
+            type: req.params['type'],
+        };
+        const qna = await QASchema.create(document);
+        if (!qna) {
+            return res.json({
+                code: 500,
+                message: 'Qna Document Creation Failed',
+            });
+        }
+        const boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
+        if (boardWrap) {
+            boardWrap['qna'].push(qna._id);
+            await BoardWrapSchema.updateOne({ type: req.params['type'] }, boardWrap);
+            return res.json({
+                code: 200,
+                message: 'Success',
+            });
+        } else {
+            const newBoardWrap = {
+                qa: [qna._id],
+                type: req.params['type'],
+            };
+            await BoardWrapSchema.create(newBoardWrap);
+            return res.json({
+                code: 200,
+                message: 'Success',
+            });
+        }
+    } else {
+        return res.json({
+            code: 500,
+            message: 'Body from require is missing',
+        });
+    }
 }
 
 /**
