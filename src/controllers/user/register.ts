@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { pwdQuestion, UserInfoSchema } from '../../db/schema/userInfo.schema';
+import { pwdQuestion, UserSchema } from '../../db/schema/user/user.schema';
 import { HTTPError } from '../../types/error';
 
 interface Term {
@@ -21,7 +21,7 @@ interface CommonUserInfo {
  * @param {Response} res
  * @param {NextFunction} next
  */
-export function Register(req: Request, res: Response, next: NextFunction): void {
+export async function Register(req: Request, res: Response, next: NextFunction): Promise<void> {
     const type: string = req.query['type']?.toString();
 
     const { TOS, PP }: Term = req.body;
@@ -45,32 +45,28 @@ export function Register(req: Request, res: Response, next: NextFunction): void 
             next(new HTTPError(400, 'PWDQuestType is incorrect'));
             return;
         }
-        new UserInfoSchema({
-            email: email,
-            userPwd: password,
-            nickname: nickname,
-            pwdQuestType: pwdQuestion[PWDQuestType],
-            pwdAnswer: PWDAnswer,
-            interests: interest,
-            TOS_YN: TOS === 'Y',
-            PP_YN: PP === 'Y',
-        }).save((err, docs) => {
-            if (err) {
-                // console.log(err);
-                if (err.keyPattern?.email) {
-                    next(new HTTPError(400, 'id is overlap'));
-                } else if (err.path === 'pwdQuestType') {
-                    next(new HTTPError(400, 'pwdQuestType is incorrect'));
-                } else {
-                    next(new HTTPError(400, 'Something is wrong'));
-                }
-            } else {
+
+        UserSchema.statics
+            .updateUser({
+                email: email,
+                userPwd: password,
+                nickname: nickname,
+                pwdQuestType: PWDQuestType,
+                pwdAnswer: PWDAnswer,
+                interests: interest,
+                TOS_YN: TOS === 'Y',
+                PP_YN: PP === 'Y',
+            })
+            .then(function () {
                 res.send({
                     statusCode: 200,
                     message: 'Success',
                 });
-            }
-        });
+            })
+            .catch(function (err) {
+                console.log(err);
+                next(new HTTPError(400, err));
+            });
     } else {
         const { oauth }: { oauth: string } = req.body;
         console.log(`[Test] ${oauth}`);

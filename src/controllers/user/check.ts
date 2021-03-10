@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserInfoSchema } from '../../db/schema/userInfo.schema';
+import { UserModel } from '../../db/schema/user/user.model';
 import { HTTPError } from '../../types/error';
 /**
  *
@@ -12,7 +12,7 @@ export function CheckUser(req: Request, res: Response, next: NextFunction): void
 
     if (type === 'email') {
         const email: string = req.query['email']?.toString();
-        UserInfoSchema.find({
+        UserModel.find({
             email: email,
         }).exec(function (err, docs) {
             if (err || docs.length) {
