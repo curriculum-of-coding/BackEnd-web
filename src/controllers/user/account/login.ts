@@ -31,7 +31,6 @@ export function Login(req: Request, res: Response, next: NextFunction): void {
                 config['JWT_SECRET'],
                 {
                     expiresIn: '1d',
-                    maxAge: '1d',
                 },
                 (err, token) => {
                     if (err) {
