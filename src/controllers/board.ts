@@ -4,6 +4,8 @@ import { CurriculumSchema } from '../db/schema/curriculum.schema';
 import { FreeBoardSchema } from '../db/schema/freeboard.schema';
 import { QASchema } from '../db/schema/qa.schema';
 
+const boardPerPage = 10;
+
 /**
  *
  * @param {Request} req
@@ -75,12 +77,20 @@ export async function getTypeRecentBoards(req: Request, res: Response) {
 export async function getFreeboard(req: Request, res: Response) {
     const boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
     const freeboardIds: [string] = boardWrap['freeboard'];
+    const numTotalBoards = freeboardIds.length;
+    const totalPages = Math.ceil(numTotalBoards / boardPerPage);
+    const currentPage = Number(req.query.currentPage) + 1;
     if (freeboardIds) {
         let freeboards = [];
-        for (const id of freeboardIds) {
+        const start = numTotalBoards - currentPage * 10;
+        for (const id of freeboardIds.slice(start, start + 10).reverse()) {
             freeboards = [...freeboards, await FreeBoardSchema.findById({ _id: id })];
         }
-        return res.json(freeboards);
+        const result = {
+            totalPages: totalPages,
+            freeboards,
+        };
+        return res.json(result);
     } else {
         return res.json({
             code: 500,
@@ -145,7 +155,7 @@ export async function createFreeboard(req: Request, res: Response) {
     } else {
         return res.json({
             code: 500,
-            message: 'Body for create from require is missing',
+            message: 'Body for create from request is missing',
         });
     }
 }
