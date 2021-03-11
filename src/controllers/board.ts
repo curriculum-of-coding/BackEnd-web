@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { classifyLikeHate } from '../db/method/like.method';
 import { BoardWrapSchema } from '../db/schema/boardWrap.schema';
 import { CurriculumSchema } from '../db/schema/curriculum.schema';
 import { FreeBoardSchema } from '../db/schema/freeboard.schema';
@@ -82,9 +83,32 @@ export async function getFreeboard(req: Request, res: Response) {
     const currentPage = Number(req.query.currentPage) + 1;
     if (freeboardIds) {
         let freeboards = [];
-        const start = numTotalBoards - currentPage * 10;
-        for (const id of freeboardIds.slice(start, start + 10).reverse()) {
-            freeboards = [...freeboards, await FreeBoardSchema.findById({ _id: id })];
+        let start;
+        let end;
+        if (currentPage < totalPages) {
+            start = numTotalBoards - currentPage * 10;
+            end = start + 10;
+        } else if (currentPage == totalPages) {
+            start = 0;
+            end = numTotalBoards % 10;
+        } else {
+            return res.json({
+                code: 400,
+                message: 'invalid page number',
+            });
+        }
+        for (const id of freeboardIds.slice(start, end).reverse()) {
+            const freeboard = await FreeBoardSchema.findById({ _id: id });
+            freeboards = [
+                ...freeboards,
+                {
+                    title: freeboard['title'],
+                    type: freeboard['type'],
+                    _id: freeboard['_id'],
+                    regUser: freeboard['regUser'],
+                    regDate: freeboard['regDate'],
+                },
+            ];
         }
         const result = {
             totalPages: totalPages,
@@ -107,7 +131,18 @@ export async function getFreeboard(req: Request, res: Response) {
  * @return {JSON} res.json
  */
 export async function getFreeboardDetail(req: Request, res: Response) {
-    const result = await FreeBoardSchema.findById({ _id: req.params['id'] });
+    const detail = await FreeBoardSchema.findById({ _id: req.params['id'] });
+    const { plus, minus } = await classifyLikeHate(detail['likes']);
+    const result = {
+        _id: detail['_id'],
+        title: detail['title'],
+        content: detail['content'],
+        type: detail['type'],
+        regUser: detail['regUser'],
+        regDate: detail['regDate'],
+        like: plus,
+        hate: minus,
+    };
     return res.json(result);
 }
 
