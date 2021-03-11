@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-interface curriculumLike {
+interface like {
     likeType: string;
     regUser: string;
     regDate: Date;
@@ -8,12 +8,12 @@ interface curriculumLike {
 
 const likeTypes: Array<string> = ['Good', 'Bad'];
 
-const curriculumLikeSchema: Schema = new Schema({
+const likeSchema: Schema = new Schema({
     likeType: { type: String, required: true, enum: likeTypes },
     regUser: { type: Schema.Types.ObjectId, ref: 'User_INFO', required: true },
     regDate: { type: Date, default: Date.now },
 });
 
-const CurriculumLikeSchema = model('curriculum_like', curriculumLikeSchema);
+const LikeSchema = model('curriculum_like', likeSchema);
 
-export { CurriculumLikeSchema, curriculumLike };
+export { LikeSchema, like };
