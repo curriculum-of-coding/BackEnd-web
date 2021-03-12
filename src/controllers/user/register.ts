@@ -41,15 +41,11 @@ export function Register(req: Request, res: Response, next: NextFunction): void 
             interest,
         }: CommonUserInfo = req.body;
 
-        if (PWDQuestType < 0 || PWDQuestType >= pwdQuestion.length) {
-            next(new HTTPError(400, 'PWDQuestType is incorrect'));
-            return;
-        }
         new UserInfoSchema({
             email: email,
             userPwd: password,
             nickname: nickname,
-            pwdQuestType: pwdQuestion[PWDQuestType],
+            pwdQuestType: PWDQuestType,
             pwdAnswer: PWDAnswer,
             interests: interest,
             TOS_YN: TOS === 'Y',

@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserINFO, UserInfoSchema } from '../../../db/schema/userInfo.schema';
-import * as jwt from 'jsonwebtoken';
 import { HTTPError } from '../../../types/error';
-import config from '../../../config';
+import { createJWT } from '../../../jwt';
 interface LoginInfo {
     email: string;
     password: string;
@@ -21,28 +20,17 @@ export function Login(req: Request, res: Response, next: NextFunction): void {
         email: email,
         userPwd: password,
     }).exec(function (err, docs: UserINFO) {
-        if (docs != null) {
-            jwt.sign(
-                {
-                    email: docs.email,
-                    nickname: docs.nickname,
-                    isSuperUser: docs.isSuperUser,
-                },
-                config['JWT_SECRET'],
-                {
-                    expiresIn: '1d',
-                },
-                (err, token) => {
-                    if (err) {
-                        next(new HTTPError(403, 'login fail'));
-                    } else {
-                        res.json({
-                            message: 'logged in successfully',
-                            token,
-                        });
-                    }
-                }
-            );
+        if (docs) {
+            const token = createJWT(docs);
+            if (token) {
+                res.json({
+                    statusCode: 200,
+                    message: 'logged in successfully',
+                    token: token,
+                });
+            } else {
+                next(new HTTPError(403, 'token create fail'));
+            }
         } else {
             next(new HTTPError(403, 'login fail'));
         }

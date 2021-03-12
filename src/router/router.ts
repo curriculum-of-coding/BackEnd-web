@@ -10,10 +10,20 @@ import { Find } from '../controllers/user/account/password/find';
 import { Change } from '../controllers/user/account/password/change';
 // eslint-disable-next-line new-cap
 const router = Router();
+const printDictionary = (dict): string => {
+    return `${Object.entries(dict).reduce(
+        (acc, [key, value], idx) =>
+            `${acc}${idx !== 0 ? ', ' : ''}'${key}': ${
+                Number.isInteger(value) ? value : `'${value}'`
+            }`,
+        '{'
+    )}}`;
+};
 
 router.all('/*', (req: Request, res: Response, next: NextFunction) => {
     if (!(req.header('node-test-header') === 'nodeTest')) {
-        console.log(`[${req.ip}] ${req.url} `);
+        console.log(`[${new Date()}](${req.ip}) [${req.method}] ${req.url} `);
+        console.log(`=> query: ${printDictionary(req.query)}, body: ${printDictionary(req.body)}`);
     }
     next();
 });
@@ -23,7 +33,7 @@ router.post('/api/register', Register);
 router.get('/api/check', CheckUser);
 router.get('/api/login', Login);
 router.delete('/api/account', authCheck, Delete);
-router.post('/api/account/password', authCheck, Find);
+router.post('/api/account/password', Find);
 router.put('/api/account/password', authCheck, Change);
 
 export default router;
