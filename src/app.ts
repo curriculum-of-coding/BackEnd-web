@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import router from './router/router';
 import { HTTPError } from './types/error';
+import { HTTPResult } from './types/result';
 
 class App {
     public application: express.Application;
@@ -18,14 +19,23 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next(new HTTPError(404));
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: HTTPResult, req: Request, res: Response, next: NextFunction) => {
+    res.status(err.statusCode || 200);
+    res.json({
+        statusCode: err.statusCode,
+        message: err.message,
+        data: err.data,
+    });
+});
 // error handle
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: HTTPError, req: Request, res: Response, next: NextFunction) => {
-    res.status(err.rawStatusCode || 500);
+    res.status(err.statusCode || 500);
     res.json({
-        statusCode: err.rawStatusCode,
+        statusCode: err.statusCode,
         message: err.message || err.rawStatusCodeMessage,
-        data: err.rawData,
+        data: err.data,
     });
 });
 

@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { pwdQuestion, UserInfoSchema } from '../../db/schema/userInfo.schema';
 import { HTTPError } from '../../types/error';
+import { HTTPResult } from '../../types/result';
+import { passwordEncrypt } from '../../utils/auth';
 
 interface Term {
     TOS: string;
@@ -32,7 +34,7 @@ export function Register(req: Request, res: Response, next: NextFunction): void 
     }
 
     if (type === undefined) {
-        const {
+        let {
             email,
             password,
             nickname,
@@ -40,6 +42,8 @@ export function Register(req: Request, res: Response, next: NextFunction): void 
             PWDAnswer,
             interest,
         }: CommonUserInfo = req.body;
+
+        password = password ? passwordEncrypt(password) : undefined;
 
         new UserInfoSchema({
             email: email,
@@ -61,10 +65,7 @@ export function Register(req: Request, res: Response, next: NextFunction): void 
                     next(new HTTPError(400, 'Something is wrong'));
                 }
             } else {
-                res.send({
-                    statusCode: 200,
-                    message: 'Success',
-                });
+                next(new HTTPResult(200, 'Success'));
             }
         });
     } else {

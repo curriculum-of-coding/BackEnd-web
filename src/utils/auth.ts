@@ -1,13 +1,13 @@
 import * as jwt from 'jsonwebtoken';
-import config from './config';
-import { UserINFO } from './db/schema/userInfo.schema';
+import config from '../config';
+import crypto from 'crypto';
 
 interface IJWT {
     email: string;
     nickname: string;
     isSuperUser: string;
 }
-const createJWT = (user: UserINFO, expires?: string): string => {
+const createJWT = (user, expires?: string): string => {
     return jwt.sign(
         {
             email: user.email,
@@ -25,4 +25,10 @@ const veriftJWT = (token: string): unknown => {
     return jwt.verify(token, config['JWT_SECRET']);
 };
 
-export { createJWT, veriftJWT, IJWT };
+const passwordEncrypt = (password: string): string => {
+    return crypto
+        .pbkdf2Sync(password, config['PASSWORD_SALT'], 100000, 64, 'sha512')
+        .toString('hex');
+};
+
+export { createJWT, veriftJWT, IJWT, passwordEncrypt };
