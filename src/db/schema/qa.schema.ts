@@ -4,9 +4,10 @@ import { domainTypes } from './boardWrap.schema';
 interface QA {
     title: string;
     content: string;
-    regUser: number;
+    regUser: string;
     regDate: Date;
     comments: Array<string>;
+    type: string;
 }
 
 const _QASchema: Schema = new Schema({
