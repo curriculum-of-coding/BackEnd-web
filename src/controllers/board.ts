@@ -75,10 +75,37 @@ export async function getTypeRecentBoards(req: Request, res: Response) {
 export async function getFreeboard(req: Request, res: Response) {
     const boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
     const freeboardIds: [string] = boardWrap['freeboard'];
+    const currentPage = Number(req.query.currentPage);
+    const numTotalBoards = freeboardIds.length;
+    const totalPages = Math.ceil(numTotalBoards / 10);
     if (freeboardIds) {
         let freeboards = [];
-        for (const id of freeboardIds) {
-            freeboards = [...freeboards, await FreeBoardSchema.findById({ _id: id })];
+        let start;
+        let end;
+        if (currentPage < totalPages) {
+            start = numTotalBoards - currentPage * 10;
+            end = start + 10;
+        } else if (currentPage == totalPages) {
+            start = 0;
+            end = numTotalBoards % 10;
+        } else {
+            return res.json({
+                code: 400,
+                message: 'Invalid Page Number',
+            });
+        }
+        for (const id of freeboardIds.slice(start, end).reverse()) {
+            const freeboard = await FreeBoardSchema.findById({ _id: id });
+            freeboards = [
+                ...freeboards,
+                {
+                    title: freeboard['title'],
+                    type: freeboard['type'],
+                    _id: freeboard['_id'],
+                    regUser: freeboard['regUser'],
+                    regDate: freeboard['regDate'],
+                },
+            ];
         }
         return res.json(freeboards);
     } else {
