@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 
-import { countDomainTypes } from './boardwrap.schema';
+import { countDomainTypes } from './boardWrap.schema';
 
 interface UserINFO {
     nickname: string;
