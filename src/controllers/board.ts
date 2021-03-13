@@ -4,6 +4,7 @@ import { FreeBoardSchema } from '../db/schema/freeboard.schema';
 import { QASchema } from '../db/schema/qa.schema';
 import { BoardWrapSchema } from '../db/schema/boardWrap.schema';
 
+const boardPerPage = 10;
 /**
  *
  * @param {Request} req
@@ -176,17 +177,48 @@ export function deleteCurriculum(req: Request, res: Response) {
  */
 export async function getQNA(req: Request, res: Response) {
     const boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
-    const qnaIds: [string] = boardWrap['qna'];
-    if (qnaIds) {
-        let qnas = [];
-        for (const id of qnaIds) {
-            qnas = [...qnas, await QASchema.findById({ _id: id })];
+    const qaIds: [string] = boardWrap['qa'];
+    const numTotalBoards = qaIds.length;
+    const totalPages = Math.ceil(numTotalBoards / boardPerPage);
+    const currentPage = Number(req.query.currentPage) + 1;
+    if (qaIds) {
+        let qas = [];
+        let start;
+        let end;
+        if (currentPage < totalPages) {
+            start = numTotalBoards - currentPage * 10;
+            end = start + 10;
+        } else if (currentPage == totalPages) {
+            start = 0;
+            end = numTotalBoards % 10;
+        } else {
+            return res.json({
+                code: 400,
+                message: 'invalid page number',
+            });
         }
-        return res.json(qnas);
+        for (const id of qaIds.slice(start, end).reverse()) {
+            const qa = await QASchema.findById({ _id: id });
+            qas = [
+                ...qas,
+                {
+                    title: qa['title'],
+                    type: qa['type'],
+                    _id: qa['_id'],
+                    regUser: qa['regUser'],
+                    regDate: qa['regDate'],
+                },
+            ];
+        }
+        const result = {
+            totalPages: totalPages,
+            qas,
+        };
+        return res.json(result);
     } else {
         return res.json({
             code: 500,
-            message: 'qnaIds not found',
+            message: 'qaIds not found',
         });
     }
 }
@@ -198,9 +230,17 @@ export async function getQNA(req: Request, res: Response) {
  * @param {NextFunction} _next
  * @return {JSON} res.json
  */
-export function getQNADetail(req: Request, res: Response) {
-    // Todo
-    return res.json();
+export async function getQNADetail(req: Request, res: Response) {
+    const detail = await QASchema.findById({ _id: req.params['id'] });
+    const result = {
+        _id: detail['_id'],
+        title: detail['title'],
+        content: detail['content'],
+        type: detail['type'],
+        regUser: detail['regUser'],
+        regDate: detail['regDate'],
+    };
+    return res.json(result);
 }
 
 /**
@@ -212,42 +252,37 @@ export function getQNADetail(req: Request, res: Response) {
  */
 export async function createQNA(req: Request, res: Response) {
     if (req.body) {
-        const document = {
+        const tempQa = {
+            regUser: '60478f2229741a452cb882ba',
             title: req.body['title'],
             content: req.body['content'],
-            regUser: '6044e99159adab64c4d10263',
             type: req.params['type'],
         };
-        const qna = await QASchema.create(document);
-        if (!qna) {
+        const asignedQa = await QASchema.create(tempQa);
+        if (!asignedQa) {
             return res.json({
                 code: 500,
-                message: 'Qna Document Creation Failed',
+                message: 'asignedQa Document Creation Failed',
             });
         }
-        const boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
-        if (boardWrap) {
-            boardWrap['qna'].push(qna._id);
-            await BoardWrapSchema.updateOne({ type: req.params['type'] }, boardWrap);
-            return res.json({
-                code: 200,
-                message: 'Success',
-            });
-        } else {
-            const newBoardWrap = {
-                qa: [qna._id],
-                type: req.params['type'],
-            };
-            await BoardWrapSchema.create(newBoardWrap);
-            return res.json({
-                code: 200,
-                message: 'Success',
-            });
+
+        let boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
+        // 조건문을 걸어준다.
+
+        if (!boardWrap) {
+            const boardWrapTemp = { type: req.params['type'] };
+            boardWrap = await BoardWrapSchema.create(boardWrapTemp);
         }
+        boardWrap['qa'].push(asignedQa['_id']);
+        await BoardWrapSchema.update({ type: req.params['type'] }, boardWrap);
+        return res.json({
+            code: 200,
+            message: 'Success',
+        });
     } else {
         return res.json({
             code: 500,
-            message: 'Body from require is missing',
+            message: 'Body for create from require is missing',
         });
     }
 }
@@ -259,9 +294,22 @@ export async function createQNA(req: Request, res: Response) {
  * @param {NextFunction} _next
  * @return {JSON} res.json
  */
-export function updateQNA(req: Request, res: Response) {
-    // Todo
-    return res.json();
+export async function updateQNA(req: Request, res: Response) {
+    if (req.body) {
+        const qa = await QASchema.findById({ _id: req.params['id'] });
+        qa['title'] = req.body['title'];
+        qa['content'] = req.body['content'];
+        await QASchema.findByIdAndUpdate({ _id: req.params['id'] }, qa);
+        return res.json({
+            code: 200,
+            message: 'Success',
+        });
+    } else {
+        res.json({
+            code: 500,
+            message: 'Body for update from from require is missing',
+        });
+    }
 }
 
 /**
@@ -271,7 +319,15 @@ export function updateQNA(req: Request, res: Response) {
  * @param {NextFunction} _next
  * @return {JSON} res.json
  */
-export function deleteQNA(req: Request, res: Response) {
-    // Todo
-    return res.json();
+export async function deleteQNA(req: Request, res: Response) {
+    await QASchema.findByIdAndDelete({ _id: req.params['id'] });
+    const boardWrap = await BoardWrapSchema.findOne({ type: req.params['type'] });
+    const qaIds: [string] = boardWrap['qa'];
+    qaIds.slice(qaIds.indexOf(req.params['id']), 1);
+    boardWrap['qa'] = qaIds;
+    await QASchema.updateOne({ type: req.params['type'] }, boardWrap);
+    return res.json({
+        code: 200,
+        message: 'Success',
+    });
 }
