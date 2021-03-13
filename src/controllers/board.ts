@@ -4,7 +4,6 @@ import { BoardWrapSchema } from '../db/schema/boardWrap.schema';
 import { CurriculumSchema } from '../db/schema/curriculum.schema';
 import { FreeBoardSchema } from '../db/schema/freeboard.schema';
 import { QASchema } from '../db/schema/qa.schema';
-import { BoardWrapSchema } from '../db/schema/boardWrap.schema';
 
 const boardPerPage = 10;
 
