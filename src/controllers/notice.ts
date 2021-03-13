@@ -58,7 +58,14 @@ export async function getNotice(req: Request, res: Response) {
  * @return {Response.json}
  */
 export async function getNoticeDetail(req: Request, res: Response) {
-    return res.json();
+    const notice = await NoticeSchema.findById({ _id: req.params['id'] });
+    if (!notice) {
+        return res.json({
+            code: 500,
+            message: 'Notice Could Not Found',
+        });
+    }
+    return res.json(notice);
 }
 
 /**
