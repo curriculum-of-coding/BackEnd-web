@@ -13,7 +13,7 @@ interface CommonUserInfo {
     email: string;
     password: string;
     nickname: string;
-    PWDQuestType?: number;
+    PWDQuestType: string;
     PWDAnswer: string;
     interest: unknown;
 }
