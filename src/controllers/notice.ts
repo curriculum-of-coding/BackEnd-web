@@ -77,3 +77,27 @@ export async function createNotice(req: Request, res: Response) {
     // Todo
     return res.json();
 }
+
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} _next
+ * @return {Response.json}
+ */
+export async function updateNotice(req: Request, res: Response) {
+    // Todo
+    return res.json();
+}
+
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} _next
+ * @return {Response.json}
+ */
+export async function deleteNotice(req: Request, res: Response) {
+    // Todo
+    return res.json();
+}

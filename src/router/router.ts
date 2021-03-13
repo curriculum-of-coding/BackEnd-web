@@ -20,6 +20,8 @@ router.get('/test', Test);
 router.get('/api/board/notice', notice.getNotice);
 router.get('/api/board/notice/:id', notice.getNoticeDetail);
 router.post('/api/board/notice/create', notice.createNotice);
+router.post('/api/board/notice/:id/update', notice.updateNotice);
+router.post('/api/board/notice/:id/delete', notice.deleteNotice);
 // Todo: board_api
 router.get('/api/board/:type', board.getTypeRecentBoards);
 router.get('/api/board/:type/freeboard', board.getFreeboard);
