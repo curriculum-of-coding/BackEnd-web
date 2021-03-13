@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { NoticeSchema } from '../db/schema/notice.schema';
 
+const boardPerPage = 10;
+
 /**
  *
  * @param {Request} req
@@ -18,7 +20,7 @@ export async function getNotice(req: Request, res: Response) {
     }
     const numTotalNotices = notices.length;
     const currentPage = Number(req.query.currentPage);
-    const totalPages = Math.ceil(numTotalNotices / 10);
+    const totalPages = Math.ceil(numTotalNotices / boardPerPage);
     let start;
     let end;
     if (currentPage < totalPages) {
