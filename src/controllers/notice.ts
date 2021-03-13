@@ -21,15 +21,9 @@ export async function getNotice(req: Request, res: Response) {
     const numTotalNotices = notices.length;
     const currentPage = Number(req.query.currentPage);
     const totalPages = Math.ceil(numTotalNotices / boardPerPage);
-    let start;
-    let end;
-    if (currentPage < totalPages) {
-        start = currentPage * 10;
-        end = start + 10;
-    } else if (currentPage == totalPages) {
-        start = currentPage * 10;
-        end = numTotalNotices;
-    } else {
+    const start = currentPage * 10;
+    const end = currentPage < totalPages ? start + 10 : numTotalNotices;
+    if (currentPage > totalPages) {
         return res.json({
             code: 400,
             message: 'Invalid Page Number',
@@ -64,7 +58,6 @@ export async function getNotice(req: Request, res: Response) {
  * @return {Response.json}
  */
 export async function getNoticeDetail(req: Request, res: Response) {
-    // Todo
     return res.json();
 }
 
