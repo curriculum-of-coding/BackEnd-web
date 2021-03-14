@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { pwdQuestion, UserInfoSchema } from '../../db/schema/userInfo.schema';
+import { UserInfoSchema } from '../../db/schema/userInfo.schema';
 import { HTTPError } from '../../types/error';
 import { HTTPResult } from '../../types/result';
 import { passwordEncrypt } from '../../utils/auth';
@@ -56,7 +56,6 @@ export function Register(req: Request, res: Response, next: NextFunction): void 
             PP_YN: PP === 'Y',
         }).save((err, docs) => {
             if (err) {
-                // console.log(err);
                 if (err.keyPattern?.email) {
                     next(new HTTPError(400, 'id is overlap'));
                 } else if (err.path === 'pwdQuestType') {
