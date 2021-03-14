@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import router from './router/router';
 import { HTTPError } from './types/error';
 import { HTTPResult } from './types/result';
+import cors from 'cors';
 
 class App {
     public application: express.Application;
@@ -13,8 +14,13 @@ class App {
 
 const app: express.Application = new App().application;
 
+app.use(
+    cors({
+        origin: 'http://localhost:3000',
+        credentials: true,
+    })
+);
 app.use('/', router);
-
 app.use((req: Request, res: Response, next: NextFunction) => {
     next(new HTTPError(404));
 });
