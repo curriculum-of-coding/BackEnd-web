@@ -32,7 +32,7 @@ router.get('/', Main);
 router.get('/test', Test);
 router.post('/api/register', Register);
 router.get('/api/check', CheckUser);
-router.get('/api/login', Login);
+router.post('/api/login', Login);
 router.get('/api/user', Info);
 router.delete('/api/account', authCheck, Delete);
 router.post('/api/account/password', Find);
