@@ -1,7 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Document } from 'mongoose';
 import { countDomainTypes } from './boardwrap.schema';
 
-interface UserINFO {
+interface UserINFO extends Document {
     nickname: string;
     email: string;
     userPwd: string;
@@ -84,5 +84,5 @@ userInfoSchema.index(
         }
     });
 };*/
-const UserInfoSchema = model('user', userInfoSchema);
+const UserInfoSchema = model<UserINFO>('user', userInfoSchema);
 export { UserInfoSchema, userInfoSchema, UserINFO };

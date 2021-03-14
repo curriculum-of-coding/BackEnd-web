@@ -8,6 +8,7 @@ import { Delete } from '../controllers/user/account/delete';
 import { Login } from '../controllers/user/account/login';
 import { Find } from '../controllers/user/account/password/find';
 import { Change } from '../controllers/user/account/password/change';
+import { Info } from '../controllers/user/info';
 // eslint-disable-next-line new-cap
 const router = Router();
 const printDictionary = (dict): string => {
@@ -32,6 +33,7 @@ router.get('/test', Test);
 router.post('/api/register', Register);
 router.get('/api/check', CheckUser);
 router.get('/api/login', Login);
+router.get('/api/user', Info);
 router.delete('/api/account', authCheck, Delete);
 router.post('/api/account/password', Find);
 router.put('/api/account/password', authCheck, Change);
