@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import config from '../../../../config';
-import { UserINFO, UserInfoSchema } from '../../../../db/schema/userInfo.schema';
-import { IJWT, passwordEncrypt, veriftJWT } from '../../../../utils/auth';
+import { UserInfoSchema } from '../../../../db/schema/userInfo.schema';
+import { passwordEncrypt, veriftJWT } from '../../../../utils/auth';
 import { HTTPError } from '../../../../types/error';
 import { HTTPResult } from '../../../../types/result';
 /**

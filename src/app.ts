@@ -26,12 +26,12 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: HTTPResult, req: Request, res: Response, next: NextFunction) => {
-    res.status(err.statusCode || 200);
+app.use((result: HTTPResult, req: Request, res: Response, next: NextFunction) => {
+    res.status(result.statusCode || 200);
     res.json({
-        statusCode: err.statusCode,
-        message: err.message,
-        data: err.data,
+        statusCode: result.statusCode,
+        message: result.message,
+        data: result.data,
     });
 });
 // error handle

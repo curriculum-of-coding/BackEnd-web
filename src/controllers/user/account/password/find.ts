@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import config from '../../../../config';
-import { UserINFO, UserInfoSchema } from '../../../../db/schema/userInfo.schema';
+import { UserInfoSchema } from '../../../../db/schema/userInfo.schema';
 import { createJWT } from '../../../../utils/auth';
 import { HTTPError } from '../../../../types/error';
 import { HTTPResult } from '../../../../types/result';
@@ -24,7 +24,7 @@ export async function Find(req: Request, res: Response, next: NextFunction): Pro
     if (docs) {
         const token = createJWT(docs, '1h');
         if (token) {
-            next(new HTTPResult(200, 'find token', { token: token }));
+            next(new HTTPResult(200, 'password is reset', { token: token }));
         } else {
             next(new HTTPError(403, 'token create fail'));
         }

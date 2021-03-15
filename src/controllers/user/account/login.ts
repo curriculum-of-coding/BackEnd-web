@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { UserINFO, UserInfoSchema } from '../../../db/schema/userInfo.schema';
+import { UserInfoSchema } from '../../../db/schema/userInfo.schema';
 import { HTTPError } from '../../../types/error';
 import { createJWT, passwordEncrypt } from '../../../utils/auth';
 import { HTTPResult } from '../../../types/result';
