@@ -26,9 +26,13 @@ const veriftJWT = (token: string): unknown => {
 };
 
 const passwordEncrypt = (password: string): string => {
-    return crypto
-        .pbkdf2Sync(password, config['PASSWORD_SALT'], 100000, 64, 'sha512')
-        .toString('hex');
+    if (password) {
+        return crypto
+            .pbkdf2Sync(password, config['PASSWORD_SALT'], 100000, 64, 'sha512')
+            .toString('hex');
+    } else {
+        return '';
+    }
 };
 
 export { createJWT, veriftJWT, IJWT, passwordEncrypt };
