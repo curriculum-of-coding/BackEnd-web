@@ -1,8 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Document } from 'mongoose';
+import { countDomainTypes } from './boardwrap.schema';
 
-import { countDomainTypes } from './boardWrap.schema';
-
-interface UserINFO {
+interface UserINFO extends Document {
     nickname: string;
     email: string;
     userPwd: string;
@@ -22,20 +21,19 @@ interface UserINFO {
     isSuperUser: boolean;
 }
 
-const pwdQuestion: Array<string> = ['Where did you born?', 'When is your birth?'];
 const defaultInterests = [].fill(false, 0, countDomainTypes);
 
 const userInfoSchema: Schema = new Schema({
     nickname: { type: String, required: true, trim: true, default: 'Guest', maxLength: 20 },
     userPwd: { type: String, required: true, trim: true, maxLength: 100 },
     email: { type: String, required: true, unique: true },
-    githubEmail: { type: String, unique: true },
+    githubEmail: { type: String },
     githubAuthKey: { type: String },
-    kakaoEmail: { type: String, unique: true },
+    kakaoEmail: { type: String },
     kakaoAuthKey: { type: String },
-    googleEmail: { type: String, unique: true },
+    googleEmail: { type: String },
     googleAuthKey: { type: String },
-    pwdQuestType: { type: String, required: true, enum: pwdQuestion },
+    pwdQuestType: { type: String, required: true },
     pwdAnswer: { type: String, required: true, default: null },
     interests: { type: Array, required: true, default: defaultInterests },
     TOS_YN: { type: Boolean, required: true },
@@ -45,8 +43,46 @@ const userInfoSchema: Schema = new Schema({
     isSuperUser: { type: Boolean, default: false },
 });
 
-userInfoSchema.index({ nickname: 1, email: 1, github_email: 1, kakao_email: 1, google_email: 1 });
+userInfoSchema.index(
+    { nickname: 1, email: 1, githubEmail: 1, kakaoEmail: 1, googleEmail: 1 },
+    {
+        unique: true,
+        partialFilterExpression: {
+            githubEmail: {
+                $exists: true,
+                $gt: '',
+            },
+            kakaoEmail: {
+                $exists: true,
+                $gt: '',
+            },
+            googleEmail: {
+                $exists: true,
+                $gt: '',
+            },
+        },
+    }
+);
 
-const UserInfoSchema = model('userInfo', userInfoSchema);
-
-export { UserInfoSchema, UserINFO };
+/* userInfoSchema.methods.updateUser = function (user, cb) {
+    UserInfoSchema.find({ name: user.name }).exec(function (err, docs) {
+        if (docs.length) {
+            cb('Name exists already', null);
+        } else {
+            if (Number.isInteger(user.pwdQuestType)) {
+                if (
+                    Number(user.pwdQuestType) >= 0 &&
+                    Number(user.pwdQuestType) < pwdQuestion.length
+                ) {
+                    user.pwdQuestType = pwdQuestion[Number(user.pwdQuestType)];
+                    user.save(function (err) {
+                        cb(err, user);
+                    });
+                }
+            }
+            cb('pwdQuestType is not correct');
+        }
+    });
+};*/
+const UserInfoSchema = model<UserINFO>('user', userInfoSchema);
+export { UserInfoSchema, userInfoSchema, UserINFO };

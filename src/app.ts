@@ -1,31 +1,47 @@
 import express, { Request, Response, NextFunction } from 'express';
 import router from './router/router';
 import { HTTPError } from './types/error';
+import { HTTPResult } from './types/result';
+import cors from 'cors';
 
 class App {
     public application: express.Application;
     constructor() {
         this.application = express();
+        this.application.use(express.json());
     }
 }
 
 const app: express.Application = new App().application;
 
-app.use(express.json());
+app.use(
+    cors({
+        origin: 'http://localhost:3000',
+        credentials: true,
+    })
+);
 app.use('/', router);
-
 app.use((req: Request, res: Response, next: NextFunction) => {
     next(new HTTPError(404));
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((result: HTTPResult, req: Request, res: Response, next: NextFunction) => {
+    res.status(result.statusCode || 200);
+    res.json({
+        statusCode: result.statusCode,
+        message: result.message,
+        data: result.data,
+    });
+});
 // error handle
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: HTTPError, req: Request, res: Response, next: NextFunction) => {
-    res.status(err.rawStatusCode || 500);
+    res.status(err.statusCode || 500);
     res.json({
-        statusCode: err.rawStatusCode,
+        statusCode: err.statusCode,
         message: err.message || err.rawStatusCodeMessage,
-        data: err.rawData,
+        data: err.data,
     });
 });
 

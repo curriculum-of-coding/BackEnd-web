@@ -1,16 +1,6 @@
 export class HTTPError extends Error {
-    constructor(private statusCode: number, message?: string, private data?: unknown) {
+    constructor(public statusCode: number, message?: string, public data?: unknown) {
         super(message);
-        this.statusCode = statusCode;
-        this.data = data;
-    }
-
-    get rawStatusCode(): number {
-        return this.statusCode;
-    }
-
-    get rawData(): unknown {
-        return this.data;
     }
 
     get rawStatusCodeMessage(): string {

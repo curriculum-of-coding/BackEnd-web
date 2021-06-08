@@ -4,12 +4,31 @@ import * as notice from '../controllers/notice';
 import * as board from '../controllers/board';
 import { Main } from '../controllers/main';
 import { Test } from '../controllers/test';
+import { CheckUser } from '../controllers/user/check';
+import { Register } from '../controllers/user/register';
+import { authCheck } from '../middleware/authCheck';
+import { Delete } from '../controllers/user/account/delete';
+import { Login } from '../controllers/user/account/login';
+import { Find } from '../controllers/user/account/password/find';
+import { Change } from '../controllers/user/account/password/change';
+import { Info } from '../controllers/user/info';
+import { Update } from '../controllers/user/update';
 // eslint-disable-next-line new-cap
 const router = Router();
+const printDictionary = (dict): string => {
+    return `${Object.entries(dict).reduce(
+        (acc, [key, value], idx) =>
+            `${acc}${idx !== 0 ? ', ' : ''}'${key}': ${
+                Number.isInteger(value) ? value : `'${value}'`
+            }`,
+        '{'
+    )}}`;
+};
 
 router.all('/*', (req: Request, res: Response, next: NextFunction) => {
     if (!(req.header('node-test-header') === 'nodeTest')) {
-        console.log(`[${req.ip}] ${req.url} `);
+        console.log(`[${new Date()}](${req.ip}) [${req.method}] ${req.url} `);
+        console.log(`=> query: ${printDictionary(req.query)}, body: ${printDictionary(req.body)}`);
     }
     next();
 });
@@ -39,5 +58,13 @@ router.get('/api/board/:type/QNA/:id', board.getQNADetail);
 router.post('/api/board/:type/QNA/create', board.createQNA);
 router.post('/api/board/:type/QNA/:id/update', board.updateQNA);
 router.delete('/api/board/:type/QNA/:id/delete', board.deleteQNA);
+// user api
+router.get('/api/check', CheckUser);
+router.post('/api/login', Login);
+router.get('/api/user', Info);
+router.put('/api/user', Update);
+router.delete('/api/account', authCheck, Delete);
+router.post('/api/account/password', Find);
+router.put('/api/account/password', authCheck, Change);
 
 export default router;
